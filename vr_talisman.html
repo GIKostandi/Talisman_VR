@@ -30,7 +30,7 @@
       const canvas = document.getElementById("renderCanvas");
       const engine = new BABYLON.Engine(canvas, true);
 
-      const response = await fetch("./data.json"); // Загрузка JSON-файла
+      const response = await fetch("./data/data.json"); // Загрузка JSON-файла
       const jsonData = await response.json(); // Преобразование в объект
 
       const createScene = () => {
