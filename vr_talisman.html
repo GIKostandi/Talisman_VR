@@ -70,43 +70,13 @@
         const createObject = async (modelName, positionX, positionY) => {
           const result = await BABYLON.SceneLoader.ImportMeshAsync(
             "",
-            "http://localhost:5500/", // Путь к файлам моделей
+            "http://localhost:5500/Talisman_VR/", // Путь к файлам моделей
             modelName,
             scene
           );
           const mesh = result.meshes[0];
           mesh.position = new BABYLON.Vector3(positionX, positionY, 0);
-
-          // Добавляем событие подсветки объекта
-          mesh.actionManager = new BABYLON.ActionManager(scene);
-
-          // Материалы для подсветки
-          const originalMaterial = mesh.material;
-          const highlightMaterial = new BABYLON.StandardMaterial(
-            "highlight",
-            scene
-          );
-          highlightMaterial.emissiveColor = new BABYLON.Color3(1, 1, 0); // Ярко-желтый
-
-          // Подсветка при наведении
-          mesh.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-              BABYLON.ActionManager.OnPointerOverTrigger,
-              function () {
-                mesh.material = highlightMaterial; // Меняем материал на подсвеченный
-              }
-            )
-          );
-
-          // Сброс материала, когда указатель уходит
-          mesh.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-              BABYLON.ActionManager.OnPointerOutTrigger,
-              function () {
-                mesh.material = originalMaterial; // Возвращаем исходный материал
-              }
-            )
-          );
+       
         };
 
         // Размещение объектов
