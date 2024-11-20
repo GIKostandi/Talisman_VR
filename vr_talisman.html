@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Babylon VR Page</title>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
+  </head>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+  <body>
+    <canvas id="renderCanvas" touch-action="none"></canvas>
+    <script type="module">
+      const canvas = document.getElementById("renderCanvas");
+      const engine = new BABYLON.Engine(canvas, true);
+
+      const response = await fetch("./data.json"); // Загрузка JSON-файла
+      const jsonData = await response.json(); // Преобразование в объект
+
+      const createScene = () => {
+        const scene = new BABYLON.Scene(engine);
+        scene.clearColor = new BABYLON.Color4(); // Белый фон
+
+        // Камера
+        const camera = new BABYLON.ArcRotateCamera(
+          "Camera",
+          Math.PI / 2,
+          Math.PI / 4,
+          10,
+          BABYLON.Vector3.Zero(),
+          scene
+        );
+        camera.attachControl(canvas, true);
+
+        // Свет
+        const light = new BABYLON.HemisphericLight(
+          "light",
+          new BABYLON.Vector3(1, 1, 0),
+          scene
+        );
+
+        // Функция для создания полки
+        const createShelf = (positionY) => {
+          const shelf = BABYLON.MeshBuilder.CreateBox(
+            "shelf",
+            { height: 0.1, width: 6, depth: 0.5 },
+            scene
+          );
+          shelf.position.y = positionY;
+          return shelf;
+        };
+
+        // Загрузка объекта
+        const createObject = async (modelName, positionX, positionY) => {
+          const result = await BABYLON.SceneLoader.ImportMeshAsync(
+            "",
+            "http://localhost:5500/", // Путь к файлам моделей
+            modelName,
+            scene
+          );
+          const mesh = result.meshes[0];
+          mesh.position = new BABYLON.Vector3(positionX, positionY, 0);
+
+          // Добавляем событие подсветки объекта
+          mesh.actionManager = new BABYLON.ActionManager(scene);
+
+          // Материалы для подсветки
+          const originalMaterial = mesh.material;
+          const highlightMaterial = new BABYLON.StandardMaterial(
+            "highlight",
+            scene
+          );
+          highlightMaterial.emissiveColor = new BABYLON.Color3(1, 1, 0); // Ярко-желтый
+
+          // Подсветка при наведении
+          mesh.actionManager.registerAction(
+            new BABYLON.ExecuteCodeAction(
+              BABYLON.ActionManager.OnPointerOverTrigger,
+              function () {
+                mesh.material = highlightMaterial; // Меняем материал на подсвеченный
+              }
+            )
+          );
+
+          // Сброс материала, когда указатель уходит
+          mesh.actionManager.registerAction(
+            new BABYLON.ExecuteCodeAction(
+              BABYLON.ActionManager.OnPointerOutTrigger,
+              function () {
+                mesh.material = originalMaterial; // Возвращаем исходный материал
+              }
+            )
+          );
+        };
+
+        // Размещение объектов
+        let positionX = -2.5; // Начальная позиция по оси X
+        let positionY = -1; // Начальная позиция по оси Y (объекты будут на полке)
+        const maxItemsPerShelf = 6; // Максимум объектов на полке
+        let itemsOnCurrentShelf = 0; // Счетчик объектов на текущей полке
+
+        // Начальная полка
+        createShelf(positionY);
+
+        // Персоны
+        const allObjects = [
+          ...jsonData.persons.map(() => ({
+            model: "models/person.glb",
+            type: "person",
+          })),
+          ...jsonData.organizations.map(() => ({
+            model: "models/organization.glb",
+            type: "organization",
+          })),
+          ...jsonData.communities.map((community, index) => ({
+            model: "models/map.glb",
+            type: "community",
+          })),
+        ];
+
+        // Размещение объектов по полкам
+        (async () => {
+          for (const object of allObjects) {
+            if (itemsOnCurrentShelf >= maxItemsPerShelf) {
+              positionY += 1.2; // Переходим на новую полку
+              createShelf(positionY); // Создаем новую полку
+              positionX = -2.5; // Сбрасываем позицию по оси X
+              itemsOnCurrentShelf = 0; // Обнуляем счетчик
+            }
+
+            // Размещаем объект на полке
+            await createObject(object.model, positionX, positionY + 0.47); // Добавлен сдвиг на 0.15 для учета высоты полки
+            positionX += 1; // Перемещаем объект по оси X
+            itemsOnCurrentShelf += 1; // Увеличиваем счетчик объектов на текущей полке
+          }
+        })();
+
+        return scene;
+      };
+
+      const scene = createScene();
+
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+
+      window.addEventListener("resize", () => {
+        engine.resize();
+      });
+    </script>
+  </body>
+</html>
