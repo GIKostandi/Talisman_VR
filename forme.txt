@@ -1,0 +1,7 @@
+Запушить:
+git add .
+git commit -m "какие изменения"
+git push -u origin main
+
+Обновить у себя:
+git pull origin main
