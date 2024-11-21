@@ -8,3 +8,6 @@ git pull origin main
 
 скачать репу с гита
 git clone https://github.com/GIKostandi/Talisman_VR.git
+
+Удалить внесенные собой изменения локально:
+git reset --hard origin/main
