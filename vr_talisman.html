@@ -6,6 +6,7 @@
     <title>Babylon VR Page</title>
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
     <script src="https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
   </head>
   <style>
@@ -55,6 +56,10 @@
           scene
         );
 
+        // GUI для текста
+        const advancedTexture =
+          BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
         // Функция для создания полки
         const createShelf = (positionY) => {
           const shelf = BABYLON.MeshBuilder.CreateBox(
@@ -66,8 +71,31 @@
           return shelf;
         };
 
+        // Функция для добавления текста над объектом
+        const createLabel = (name, position) => {
+          const plane = BABYLON.MeshBuilder.CreatePlane(
+            "labelPlane",
+            { size: 1 },
+            scene
+          );
+          plane.position = position.clone();
+          plane.position.y += 0.6;
+
+          plane.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+          const dynamicTexture =
+            BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
+
+          const textBlock = new BABYLON.GUI.TextBlock();
+          textBlock.text = name;
+          textBlock.color = "black";
+          textBlock.fontSize = 80;
+          dynamicTexture.addControl(textBlock);
+
+          return plane;
+        };
+
         // Загрузка объекта
-        const createObject = async (modelName, positionX, positionY) => {
+        const createObject = async (modelName, name, positionX, positionY) => {
           const result = await BABYLON.SceneLoader.ImportMeshAsync(
             "",
             "http://localhost:5500/Talisman_VR/",
@@ -76,6 +104,9 @@
           );
           const mesh = result.meshes[0];
           mesh.position = new BABYLON.Vector3(positionX, positionY, 0);
+
+          // Добавление текста
+          createLabel(name, mesh.position);
         };
 
         // Размещение объектов
@@ -89,16 +120,19 @@
 
         // Персоны
         const allObjects = [
-          ...jsonData.persons.map(() => ({
+          ...jsonData.persons.map((person) => ({
             model: "models/person.glb",
+            name: person.name, // Предполагается, что в JSON есть поле name
             type: "person",
           })),
-          ...jsonData.organizations.map(() => ({
+          ...jsonData.organizations.map((organization) => ({
             model: "models/organization.glb",
+            name: organization.name,
             type: "organization",
           })),
           ...jsonData.communities.map((community, index) => ({
             model: "models/map.glb",
+            name: community.name,
             type: "community",
           })),
         ];
@@ -114,7 +148,12 @@
             }
 
             // Размещаем объект на полке
-            await createObject(object.model, positionX, positionY + 0.47);
+            await createObject(
+              object.model,
+              object.name,
+              positionX,
+              positionY + 0.47
+            );
             positionX += 1;
             itemsOnCurrentShelf += 1;
           }
