@@ -5,3 +5,6 @@ git push -u origin main
 
 Обновить у себя (ВСе обновления обязательно в папке Talisman_vr):
 git pull origin main
+
+скачать репу с гита
+git clone https://github.com/GIKostandi/Talisman_VR.git
