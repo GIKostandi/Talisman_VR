@@ -56,6 +56,49 @@
           scene
         );
 
+        //дефолтное окружение
+        var environment = scene.createDefaultEnvironment({
+          enableGroundShadow: true,
+          groundYBias: -100,
+        });
+        environment.setMainColor(BABYLON.Color3.FromHexString("#000000"));
+        environment.ground.isVisible = false;
+        environment.skybox.isVisible = false;
+
+        // Для использования виара (возможно, потребуется замена под webxr)
+        var vrHelper = scene.createDefaultVRExperience({
+          createDeviceOrientationCamera: false,
+          useXR: true,
+        });
+
+        // Создание скайбокса
+        var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+        var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+        skyboxMaterial.backFaceCulling = false;
+        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture(
+          "textures/skybox",
+          scene
+        );
+        skyboxMaterial.reflectionTexture.coordinatesMode =
+          BABYLON.Texture.SKYBOX_MODE;
+        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        skyboxMaterial.disableLighting = true;
+        skybox.material = skyboxMaterial;
+
+        //Поле для телепортации в виаре
+        const ground = BABYLON.MeshBuilder.CreateGround(
+          "ground",
+          {
+            width: 10,
+            height: 10,
+          },
+          scene
+        );
+        ground.isVisible = false;
+
+        vrHelper.enableTeleportation({ floorMeshes: [ground] });
+
         // GUI для текста
         const advancedTexture =
           BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
@@ -111,13 +154,15 @@
 
         // Размещение объектов
         let positionX = -2.5;
-        let positionY = -1;
+        let positionY = 0;
         const maxItemsPerShelf = 6;
         let itemsOnCurrentShelf = 0;
 
         // Начальная полка
         createShelf(positionY);
 
+        // Enable teleportation with the ground mesh
+        vrHelper.enableTeleportation({ floorMeshes: [ground] });
         // Персоны
         const allObjects = [
           ...jsonData.persons.map((person) => ({
