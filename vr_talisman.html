@@ -98,7 +98,7 @@
         const createObject = async (modelName, name, positionX, positionY) => {
           const result = await BABYLON.SceneLoader.ImportMeshAsync(
             "",
-            "http://localhost:5500/Talisman_VR/",
+            "https://localhost:5500/Talisman_VR/",
             modelName,
             scene
           );
@@ -121,17 +121,17 @@
         // Персоны
         const allObjects = [
           ...jsonData.persons.map((person) => ({
-            model: "models/person.glb",
+            model: "./models/person.glb",
             name: person.name, // Предполагается, что в JSON есть поле name
             type: "person",
           })),
           ...jsonData.organizations.map((organization) => ({
-            model: "models/organization.glb",
+            model: "./models/organization.glb",
             name: organization.name,
             type: "organization",
           })),
           ...jsonData.communities.map((community, index) => ({
-            model: "models/map.glb",
+            model: "./models/map.glb",
             name: community.name,
             type: "community",
           })),
