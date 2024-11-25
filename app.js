@@ -4,7 +4,7 @@ const engine = new BABYLON.Engine(canvas, true);
 const response = await fetch("./data/data.json"); // Загрузка JSON-файла
 const jsonData = await response.json();
 
-const createScene = () => {
+var createScene = function () {
   const scene = new BABYLON.Scene(engine);
   scene.clearColor = new BABYLON.Color4(1, 1, 1, 1); // Белый фон
 
@@ -12,8 +12,8 @@ const createScene = () => {
   const camera = new BABYLON.ArcRotateCamera(
     "Camera",
     Math.PI / 2,
-    Math.PI / 4,
-    10,
+    Math.PI / 2,
+    5,
     BABYLON.Vector3.Zero(),
     scene
   );
@@ -68,51 +68,27 @@ const createScene = () => {
   ground.isVisible = false;
   vrHelper.enableTeleportation({ floorMeshes: [ground] });
 
+  const allObjects = [
+    ...jsonData.persons.map((person) => ({
+      model: "./models/test.glb",
+      name: person.name,
+      type: "person",
+    })),
+    ...jsonData.organizations.map((organization) => ({
+      model: "./models/organization.obj",
+      name: organization.name,
+      type: "organization",
+    })),
+    ...jsonData.communities.map((community) => ({
+      model: "./models/map.obj",
+      name: community.name,
+      type: "community",
+    })),
+  ];
+
   // GUI для текста
   const advancedTexture =
     BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-
-  //Переписать, временное решение. Babylon спокойно поддерживает обработчики из коробки без построения доп структуры с вложенными if
-  // Создание подсветки
-  const highlightMaterial = new BABYLON.StandardMaterial(
-    "highlightMaterial",
-    scene
-  );
-  highlightMaterial.emissiveColor = new BABYLON.Color3(1, 1, 0);
-
-  let lastPickedMesh = null;
-
-  const onPointerMove = (event) => {
-    const pickResult = scene.pick(scene.pointerX, scene.pointerY);
-
-    if (pickResult.pickedMesh && pickResult.pickedMesh.isPickable) {
-      const pickedMesh = pickResult.pickedMesh;
-
-      if (
-        !pickedMesh.name.includes("skyBox") &&
-        !pickedMesh.name.includes("labelPlane") &&
-        !pickedMesh.name.includes("shelf")
-      ) {
-        if (lastPickedMesh !== pickedMesh) {
-          if (lastPickedMesh && lastPickedMesh.originalMaterial) {
-            lastPickedMesh.material = lastPickedMesh.originalMaterial;
-          }
-
-          pickedMesh.originalMaterial = pickedMesh.material;
-          pickedMesh.material = highlightMaterial;
-
-          lastPickedMesh = pickedMesh;
-        }
-      }
-    } else {
-      if (lastPickedMesh && lastPickedMesh.material) {
-        lastPickedMesh.material = lastPickedMesh.originalMaterial;
-        lastPickedMesh = null;
-      }
-    }
-  };
-
-  scene.onPointerMove = onPointerMove;
 
   // Функции для объектов и текстов
   const createLabel = (name, position) => {
@@ -122,7 +98,7 @@ const createScene = () => {
       scene
     );
     plane.position = position.clone();
-    plane.position.y += 0.6;
+    plane.position.y += 1.1;
 
     plane.rotation = new BABYLON.Vector3(0, Math.PI, 0);
     const dynamicTexture =
@@ -136,20 +112,61 @@ const createScene = () => {
 
     return plane;
   };
-
   const createObject = async (modelName, name, positionX, positionY) => {
-    const result = await BABYLON.SceneLoader.ImportMeshAsync(
-      "",
-      "https://localhost:5500/Talisman_VR/",
-      modelName,
-      scene
-    );
-    const mesh = result.meshes[0];
-    mesh.position = new BABYLON.Vector3(positionX, positionY, 0);
-    mesh.isPickable = true;
-    mesh.originalMaterial = mesh.material;
+    try {
+      // Загрузка модели
+      const result = await BABYLON.SceneLoader.ImportMeshAsync(
+        "",
+        "https://localhost:5500/Talisman_VR/",
+        modelName,
+        scene
+      );
+      if (result.meshes.length > 0) {
+        const mesh = result.meshes[0];
+        mesh.position = new BABYLON.Vector3(positionX, positionY, 0);
 
-    createLabel(name, mesh.position);
+        createLabel(name, mesh.position);
+
+        mesh.isPickable = true;
+        mesh.originalMaterial = mesh.material;
+
+        mesh.actionManager = new BABYLON.ActionManager(scene);
+
+        // При клике на объект
+        mesh.actionManager.registerAction(
+          new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger,
+            function () {
+              alert(name);
+            }
+          )
+        );
+
+        //Поднитие при наведении
+        mesh.actionManager.registerAction(
+          new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPointerOverTrigger,
+            function () {
+              mesh.position.y += 0.05;
+            }
+          )
+        );
+
+        //вернуть обратно
+        mesh.actionManager.registerAction(
+          new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPointerOutTrigger,
+            function () {
+              mesh.position.y -= 0.05;
+            }
+          )
+        );
+      } else {
+        console.error("Меши не загружены");
+      }
+    } catch (error) {
+      console.error("Ошибка при загрузке модели:", error);
+    }
   };
 
   // Обработка данных JSON
@@ -161,32 +178,20 @@ const createScene = () => {
   const createShelf = (positionY) => {
     const shelf = BABYLON.MeshBuilder.CreateBox(
       "shelf",
-      { height: 0.1, width: 6, depth: 0.5 },
+      { height: 0.05, width: 6, depth: 0.5 },
       scene
     );
     shelf.position.y = positionY;
+
+    const shelfMaterial = new BABYLON.StandardMaterial("shelfMaterial", scene);
+    shelfMaterial.diffuseColor = new BABYLON.Color3.Blue();
+
+    // Применение материала к полке
+    shelf.material = shelfMaterial;
     return shelf;
   };
 
   createShelf(positionY);
-
-  const allObjects = [
-    ...jsonData.persons.map((person) => ({
-      model: "./models/person.glb",
-      name: person.name,
-      type: "person",
-    })),
-    ...jsonData.organizations.map((organization) => ({
-      model: "./models/organization.glb",
-      name: organization.name,
-      type: "organization",
-    })),
-    ...jsonData.communities.map((community) => ({
-      model: "./models/map.glb",
-      name: community.name,
-      type: "community",
-    })),
-  ];
 
   (async () => {
     for (const object of allObjects) {
@@ -197,12 +202,7 @@ const createScene = () => {
         itemsOnCurrentShelf = 0;
       }
 
-      await createObject(
-        object.model,
-        object.name,
-        positionX,
-        positionY + 0.47
-      );
+      await createObject(object.model, object.name, positionX, positionY);
       positionX += 1.2;
       itemsOnCurrentShelf += 1;
     }
