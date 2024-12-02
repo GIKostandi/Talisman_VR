@@ -20,8 +20,26 @@ var createScene = function () {
   );
   camera.attachControl(canvas, true);
 
+  // Создаём точечный свет, который рассеивается во все стороны
+  const pointLight = new BABYLON.PointLight(
+    "pointLight",
+    new BABYLON.Vector3(0, 10, 0), // Позиция источника света
+    scene
+  );
+
+  // Настраиваем свойства света
+  pointLight.intensity = 0.2; // Яркость света
+  pointLight.diffuse = new BABYLON.Color3(1, 1, 1); // Цвет рассеянного света
+  pointLight.specular = new BABYLON.Color3(1, 1, 1); // Цвет бликов
+
   // Свет
-  const light = new BABYLON.HemisphericLight(
+  const light1 = new BABYLON.HemisphericLight(
+    "light",
+    new BABYLON.Vector3(1, 1, 0),
+    scene
+  );
+  // Свет
+  const light2 = new BABYLON.HemisphericLight(
     "light",
     new BABYLON.Vector3(1, 1, 0),
     scene
@@ -42,20 +60,30 @@ var createScene = function () {
     useXR: true,
   });
 
-  // Создание скайбокса
-  var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
-  var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-  skyboxMaterial.backFaceCulling = false;
-  skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture(
-    "textures/skybox",
-    scene
+  // Загружаем модель сферы
+  BABYLON.SceneLoader.ImportMesh(
+    "",
+    "https://localhost:5500/Talisman_VR/",
+    "./models/sphere_background/sphere_background.obj",
+    scene,
+    function (meshes) {
+      var skySphere = meshes[0];
+      skySphere.scaling = new BABYLON.Vector3(10, 10, 10); // Увеличиваем размер
+      skySphere.isPickable = false; // Отключаем интерактивность
+    }
   );
-  skyboxMaterial.reflectionTexture.coordinatesMode =
-    BABYLON.Texture.SKYBOX_MODE;
-  skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-  skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-  skyboxMaterial.disableLighting = true;
-  skybox.material = skyboxMaterial;
+  // Загружаем модель Логотипа
+  BABYLON.SceneLoader.ImportMesh(
+    "",
+    "https://localhost:5500/Talisman_VR/",
+    "./models/logo/logo.obj",
+    scene,
+    function (meshes) {
+      var skySphere = meshes[0];
+      skySphere.scaling = new BABYLON.Vector3(1, 1, 1); // Увеличиваем размер
+      skySphere.isPickable = false; // Отключаем интерактивность
+    }
+  );
 
   let wrapper = new BABYLON.TransformNode("Wrapper");
   wrapper.setEnabled(true);
@@ -76,43 +104,45 @@ var createScene = function () {
   vrHelper.enableTeleportation({ floorMeshes: [ground] });
 
   const allObjects = [
-    //если роль - ученый
-    ...jsonData.persons
-      .filter((person) => person.role === "Ученый")
-      .map((person) => ({
-        model: "./models/science.obj",
-        name: person.name,
-        type: person.type,
-        role: person.role,
-        url: person.url,
-      })),
-    //Если роль не ученый
-    ...jsonData.persons
-      .filter((person) => person.role != "Ученый")
-      .map((person) => ({
-        model: "./models/person.obj",
-        name: person.name,
-        type: person.type,
-        role: person.role,
-        url: person.url,
-      })),
-
-    // Организации
+    //Образовательное учреждение
+    ...jsonData.education.map((education) => ({
+      model: "./models/education/education.obj",
+      id: education.id,
+      name: education.name,
+      type: education.type,
+      role: education.role,
+      url: education.url,
+      connections: education.connections,
+    })),
+    //Персона
+    ...jsonData.persons.map((person) => ({
+      model: "./models/person/person.obj",
+      id: person.id,
+      name: person.name,
+      type: person.type,
+      role: person.role,
+      url: person.url,
+      connections: person.connections,
+    })),
+    //Организации
     ...jsonData.organizations.map((organization) => ({
-      model: "./models/organization.obj",
+      model: "./models/organization/organization.obj",
+      id: organization.id,
       name: organization.name,
       type: organization.type,
       role: organization.role,
       url: organization.url,
+      connections: organization.connections,
     })),
-
-    // Сообщества
-    ...jsonData.communities.map((community) => ({
-      model: "./models/map.obj",
-      name: community.name,
-      type: community.type,
-      role: community.role,
-      url: community.url,
+    //Сообщества
+    ...jsonData.country.map((country) => ({
+      model: "./models/country/map.obj",
+      id: country.id,
+      name: country.name,
+      type: country.type,
+      role: country.role,
+      url: country.url,
+      connections: country.connections,
     })),
   ];
   // Функция для перемешивания массива
@@ -131,98 +161,99 @@ var createScene = function () {
   const advancedTexture =
     BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-  //Отрисовка карточки над концептом
-  const createLabel = async (name, position) => {
-    try {
-      const plane = BABYLON.MeshBuilder.CreatePlane(
-        "labelPlane",
-        { width: 1, height: 0.6 },
-        scene
-      );
-      plane.parent = wrapper;
-      plane.position = position.clone();
-      plane.position.y += 1.2;
-      plane.position.z -= 0.2;
-      plane.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+  const createLabel = (name, position, scene) => {
+    // Создаем плоскость для отображения текста
+    const plane = BABYLON.MeshBuilder.CreatePlane(
+      "labelPlane",
+      { width: 1, height: 0.6 },
+      scene
+    );
+    plane.position = position.clone();
+    plane.position.y += 1.15; // Поднять текст над объектом
+    plane.position.z -= 0.2;
+    plane.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+    plane.parent = wrapper;
 
-      const material = new BABYLON.StandardMaterial("labelMaterial", scene);
+    // Создаем динамическую текстуру
+    const textureWidth = 512;
+    const textureHeight = 256;
+    const dynamicTexture = new BABYLON.DynamicTexture(
+      "dynamicTexture",
+      { width: textureWidth, height: textureHeight },
+      scene,
+      false
+    );
 
-      const textureWidth = 512;
-      const textureHeight = 256;
-      const dynamicTexture = new BABYLON.DynamicTexture(
-        "dynamicTexture",
-        { width: textureWidth, height: textureHeight },
-        scene,
-        true
-      );
+    // Получаем контекст для рисования текста
+    const ctx = dynamicTexture.getContext();
+    ctx.clearRect(0, 0, textureWidth, textureHeight);
 
-      material.diffuseColor = new BABYLON.Color3(255, 255, 255);
+    // Настройки текста
+    ctx.fillStyle = "transparent"; // Прозрачный фон
+    ctx.fillRect(0, 0, textureWidth, textureHeight);
+    ctx.font = "italic bold 50px Arial";
+    ctx.fillStyle = "rgb(0,68,255)"; // Цвет текста
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
-      plane.material = material;
-      material.diffuseTexture = dynamicTexture;
-      material.backFaceCulling = false;
-      plane.material = material;
-      plane.background = "white";
+    // Логика разбиения текста на строки
+    const maxWidth = textureWidth - 20;
+    const lineHeight = 55;
+    const lines = [];
+    let currentLine = "";
 
-      // Отрисовка текста
-      const ctx = dynamicTexture.getContext();
-      ctx.clearRect(0, 0, textureWidth, textureHeight);
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, textureWidth, textureHeight);
+    name.split(" ").forEach((word) => {
+      const testLine = currentLine ? `${currentLine} ${word}` : word;
+      const width = ctx.measureText(testLine).width;
 
-      ctx.font = "bold 45px Arial";
-      ctx.fillStyle = "rgb(0,68,255)";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      const maxWidth = textureWidth - 20;
-      const lineHeight = 55;
-      let lines = [];
-      let currentLine = "";
-
-      // Разбиение текста на строки
-      name.split(" ").forEach((word) => {
-        const testLine = currentLine ? currentLine + " " + word : word;
-        const width = ctx.measureText(testLine).width;
-
-        if (width < maxWidth) {
-          currentLine = testLine;
-        } else {
-          lines.push(currentLine);
-          currentLine = word;
-        }
-      });
-
-      if (currentLine) {
+      if (width < maxWidth) {
+        currentLine = testLine;
+      } else {
         lines.push(currentLine);
+        currentLine = word;
       }
+    });
 
-      // Отрисовка текста
-      const totalHeight = lines.length * lineHeight;
-      const yStart = (textureHeight - totalHeight) / 1.5;
-
-      // Рисуем все строки текста
-      lines.forEach((line, index) => {
-        ctx.fillText(line, textureWidth / 2, yStart + index * lineHeight);
-      });
-
-      dynamicTexture.update();
-
-      return plane;
-    } catch (error) {
-      console.error("Ошибка создания метки:", error);
-      return null;
+    if (currentLine) {
+      lines.push(currentLine);
     }
+
+    // Отрисовка текста
+    const totalHeight = lines.length * lineHeight;
+    const yStart = (textureHeight - totalHeight) / 1.5;
+
+    lines.forEach((line, index) => {
+      ctx.fillText(line, textureWidth / 2, yStart + index * lineHeight);
+    });
+
+    // Обновляем текстуру
+    dynamicTexture.update();
+
+    // Применяем текстуру на материал и присваиваем плоскости
+    const material = new BABYLON.StandardMaterial("labelMaterial", scene);
+    material.diffuseTexture = dynamicTexture;
+    material.opacityTexture = dynamicTexture; // Поддержка прозрачности
+    material.backFaceCulling = false; // Видимость с обеих сторон
+
+    plane.material = material;
+
+    return plane;
   };
 
+  // Хранилище для всех созданных мешей
+  const objectsMap = {};
+
+  // Функция для создания объекта
   const createObject = async (
     modelName,
+    id,
     name,
     positionX,
     positionY,
     type,
     role,
-    url
+    url,
+    connections
   ) => {
     try {
       // Загрузка модели
@@ -244,6 +275,9 @@ var createScene = function () {
 
         mesh.actionManager = new BABYLON.ActionManager(scene);
 
+        // Сохранение объекта в хранилище
+        objectsMap[id] = mesh;
+
         // Создание карточки
         const card = createConceptCard(name, type, role, url);
 
@@ -258,22 +292,55 @@ var createScene = function () {
           )
         );
 
-        // Поднятие при наведении
+        // Поднятие объекта и связанных объектов при наведении
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOverTrigger,
-            function () {
+            () => {
+              // Поднять текущий объект
               mesh.position.y += 0.05;
+
+              // Поднять связанные объекты
+              if (connections) {
+                const connectedIds = [
+                  ...(connections.persons || []),
+                  ...(connections.organizations || []),
+                  ...(connections.communities || []),
+                ];
+                console.log(connectedIds);
+                connectedIds.forEach((connectedId) => {
+                  const connectedMesh = objectsMap[connectedId];
+                  if (connectedMesh) {
+                    connectedMesh.position.y += 0.3;
+                  }
+                });
+              }
             }
           )
         );
 
-        // Вернуть обратно
+        // Вернуть объекты на место при выходе мыши
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOutTrigger,
-            function () {
+            () => {
+              // Вернуть текущий объект
               mesh.position.y -= 0.05;
+
+              // Вернуть связанные объекты
+              if (connections) {
+                const connectedIds = [
+                  ...(connections.persons || []),
+                  ...(connections.organizations || []),
+                  ...(connections.communities || []),
+                ];
+                connectedIds.forEach((connectedId) => {
+                  const connectedMesh = objectsMap[connectedId];
+                  if (connectedMesh) {
+                    connectedMesh.position.y -= 0.3;
+                  }
+                });
+              }
             }
           )
         );
@@ -302,9 +369,14 @@ var createScene = function () {
     shelf.position.y = positionY;
 
     const shelfMaterial = new BABYLON.StandardMaterial("shelfMaterial", scene);
-    shelfMaterial.diffuseColor = new BABYLON.Color3(0, 68 / 255, 255 / 255);
-
+    shelfMaterial.diffuseColor = new BABYLON.Color3(
+      53 / 255,
+      125 / 255,
+      218 / 255
+    );
+    shelfMaterial.alpha = 0.6; // Устанавливаем прозрачность материала
     shelf.material = shelfMaterial;
+
     return shelf;
   };
 
@@ -321,12 +393,14 @@ var createScene = function () {
 
       await createObject(
         object.model,
+        object.id,
         object.name,
         positionX,
         positionY,
         object.type,
         object.role,
-        object.url
+        object.url,
+        object.connections
       );
       positionX += 1.2;
       itemsOnCurrentShelf += 1;

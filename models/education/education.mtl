@@ -1,12 +1,12 @@
 # Blender 4.3.0 MTL File: 'None'
 # www.blender.org
 
-newmtl Office_mat
-Ns 753.008179
+newmtl Edu_IconTex_mat.003
+Ns 657.398376
 Ka 0.500000 0.500000 0.500000
-Kd 0.420817 0.150406 0.479000
-Ks 0.500000 0.500000 0.500000
+Ks 1.000000 1.000000 1.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 3
+map_Kd models/education/education.jpg
