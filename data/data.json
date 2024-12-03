@@ -3,9 +3,8 @@
     {
       "id": "1",
       "name": "Софья Васильевна Ковалевская",
-      "role": "Личность",
-      "type": "Персона",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Sofja_Wassiljewna_Kowalewskaja_1_%28Remini_enhanced%29.jpg",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["2", "3", "4"],
         "organizations": ["6"],

@@ -28,7 +28,7 @@ var createScene = function () {
   );
 
   // Настраиваем свойства света
-  pointLight.intensity = 0.2; // Яркость света
+  pointLight.intensity = 1; // Яркость света
   pointLight.diffuse = new BABYLON.Color3(1, 1, 1); // Цвет рассеянного света
   pointLight.specular = new BABYLON.Color3(1, 1, 1); // Цвет бликов
 
@@ -60,7 +60,7 @@ var createScene = function () {
     useXR: true,
   });
 
-  // Загружаем модель сферы
+  //Сфера
   BABYLON.SceneLoader.ImportMesh(
     "",
     "https://localhost:5500/Talisman_VR/",
@@ -68,11 +68,11 @@ var createScene = function () {
     scene,
     function (meshes) {
       var skySphere = meshes[0];
-      skySphere.scaling = new BABYLON.Vector3(10, 10, 10); // Увеличиваем размер
-      skySphere.isPickable = false; // Отключаем интерактивность
+      skySphere.scaling = new BABYLON.Vector3(10, 10, 10); //размер
+      skySphere.isPickable = false;
     }
   );
-  // Загружаем модель Логотипа
+  //Логотип талисмана
   BABYLON.SceneLoader.ImportMesh(
     "",
     "https://localhost:5500/Talisman_VR/",
@@ -80,8 +80,8 @@ var createScene = function () {
     scene,
     function (meshes) {
       var skySphere = meshes[0];
-      skySphere.scaling = new BABYLON.Vector3(1, 1, 1); // Увеличиваем размер
-      skySphere.isPickable = false; // Отключаем интерактивность
+      skySphere.scaling = new BABYLON.Vector3(1, 1, 1); //размер
+      skySphere.isPickable = false;
     }
   );
 
@@ -119,9 +119,8 @@ var createScene = function () {
       model: "./models/person/person.obj",
       id: person.id,
       name: person.name,
-      type: person.type,
-      role: person.role,
-      url: person.url,
+      photo_properties: person.photo_properties,
+      photo_connections: person.photo_connections,
       connections: person.connections,
     })),
     //Организации
@@ -129,9 +128,6 @@ var createScene = function () {
       model: "./models/organization/organization.obj",
       id: organization.id,
       name: organization.name,
-      type: organization.type,
-      role: organization.role,
-      url: organization.url,
       connections: organization.connections,
     })),
     //Сообщества
@@ -139,9 +135,6 @@ var createScene = function () {
       model: "./models/country/map.obj",
       id: country.id,
       name: country.name,
-      type: country.type,
-      role: country.role,
-      url: country.url,
       connections: country.connections,
     })),
   ];
@@ -156,10 +149,6 @@ var createScene = function () {
   shuffleArray(allObjects);
 
   console.log(allObjects);
-
-  // GUI для текста
-  const advancedTexture =
-    BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
   const createLabel = (name, position, scene) => {
     // Создаем плоскость для отображения текста
@@ -233,7 +222,7 @@ var createScene = function () {
     const material = new BABYLON.StandardMaterial("labelMaterial", scene);
     material.diffuseTexture = dynamicTexture;
     material.opacityTexture = dynamicTexture; // Поддержка прозрачности
-    material.backFaceCulling = false; // Видимость с обеих сторон
+    material.backFaceCulling = false;
 
     plane.material = material;
 
@@ -250,13 +239,11 @@ var createScene = function () {
     name,
     positionX,
     positionY,
-    type,
-    role,
-    url,
+    photo_properties,
+    photo_connections,
     connections
   ) => {
     try {
-      // Загрузка модели
       const result = await BABYLON.SceneLoader.ImportMeshAsync(
         "",
         "https://localhost:5500/Talisman_VR/",
@@ -279,7 +266,7 @@ var createScene = function () {
         objectsMap[id] = mesh;
 
         // Создание карточки
-        const card = createConceptCard(name, type, role, url);
+        const card = createConceptCard(photo_properties, photo_connections);
 
         // Отображение карточки концепта при нажатии
         mesh.actionManager.registerAction(
@@ -298,7 +285,7 @@ var createScene = function () {
             BABYLON.ActionManager.OnPointerOverTrigger,
             () => {
               // Поднять текущий объект
-              mesh.position.y += 0.05;
+              mesh.position.y += 0.07;
 
               // Поднять связанные объекты
               if (connections) {
@@ -311,7 +298,7 @@ var createScene = function () {
                 connectedIds.forEach((connectedId) => {
                   const connectedMesh = objectsMap[connectedId];
                   if (connectedMesh) {
-                    connectedMesh.position.y += 0.3;
+                    connectedMesh.position.y += 0.07;
                   }
                 });
               }
@@ -325,7 +312,7 @@ var createScene = function () {
             BABYLON.ActionManager.OnPointerOutTrigger,
             () => {
               // Вернуть текущий объект
-              mesh.position.y -= 0.05;
+              mesh.position.y -= 0.07;
 
               // Вернуть связанные объекты
               if (connections) {
@@ -337,7 +324,7 @@ var createScene = function () {
                 connectedIds.forEach((connectedId) => {
                   const connectedMesh = objectsMap[connectedId];
                   if (connectedMesh) {
-                    connectedMesh.position.y -= 0.3;
+                    connectedMesh.position.y -= 0.07;
                   }
                 });
               }
@@ -397,18 +384,34 @@ var createScene = function () {
         object.name,
         positionX,
         positionY,
-        object.type,
-        object.role,
-        object.url,
+        object.photo_properties,
+        object.photo_connections,
         object.connections
       );
+      console.log(createObject);
       positionX += 1.2;
       itemsOnCurrentShelf += 1;
     }
   })();
 
-  const createConceptCard = (name, type, role, url) => {
-    let card = BABYLON.MeshBuilder.CreatePlane("card", { size: 5 });
+  const createConceptCard = (photo_properties, photo_connections) => {
+    // Размеры картинки
+    const imageWidth = 1003;
+    const imageHeight = 1621;
+
+    // Вычисляем соотношение сторон
+    const aspectRatio = imageWidth / imageHeight;
+
+    // Определяем желаемую высоту или ширину плоскости
+    const desiredHeight = 5; // Например, высота 10 единиц
+    const desiredWidth = desiredHeight * aspectRatio;
+
+    // Создаем плоскость с заданными размерами
+    let card = BABYLON.MeshBuilder.CreatePlane("card", {
+      width: desiredWidth,
+      height: desiredHeight,
+    });
+    // let card = BABYLON.MeshBuilder.CreatePlane("card", { size: 10 });
     card.rotation = new BABYLON.Vector3(0, Math.PI, 0);
     card.setEnabled(false);
 
@@ -419,86 +422,89 @@ var createScene = function () {
     wrapFront.background = "white";
     adt.addControl(wrapFront);
 
-    let thumbnailBg = new BABYLON.GUI.Rectangle("Card_ThumbnailBg");
-    thumbnailBg.accessibilityTag = {
-      description: "Event card",
-    };
-    thumbnailBg.width = "100%";
-    thumbnailBg.height = "40%";
-    thumbnailBg.background = "white";
-    thumbnailBg.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    thumbnailBg.top = 10;
-    thumbnailBg.right = 100;
-    wrapFront.addControl(thumbnailBg);
-
-    let ConceptPhoto = new BABYLON.GUI.Image("Card_ThumbnailImage", url);
-    ConceptPhoto.width = "50%";
-    ConceptPhoto.height = "100%";
-    ConceptPhoto.horizontalAlignment =
-      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    thumbnailBg.addControl(ConceptPhoto);
-
-    const ConceptName = new BABYLON.GUI.TextBlock(
-      "ConceptName",
-      `Концепт: ${name}`
+    //Фотка со связями
+    let photoConnections = new BABYLON.GUI.Image(
+      "Card_ThumbnailImage",
+      photo_connections
     );
-    ConceptName.fontSize = 33;
-    ConceptName.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    ConceptName.textHorizontalAlignment =
+    photoConnections.width = "100%";
+    photoConnections.height = "100%";
+    photoConnections.horizontalAlignment =
       BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    ConceptName.right = "5%";
-    ConceptName.top = "120px";
-    ConceptName.height = "5%";
-    ConceptName.paddingLeft = "550px";
-    wrapFront.addControl(ConceptName);
+    wrapFront.addControl(photoConnections);
 
-    const ConceptType = new BABYLON.GUI.TextBlock(
-      "ConceptType",
-      `Тип концепта: ${type}`
+    //Фотка с характеристиками
+    let photoProperties = new BABYLON.GUI.Image(
+      "Card_ThumbnailImage",
+      photo_properties
     );
-    ConceptType.fontSize = 33;
-    ConceptType.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    ConceptType.textHorizontalAlignment =
+    photoProperties.width = "100%";
+    photoProperties.height = "100%";
+    photoProperties.horizontalAlignment =
       BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    ConceptType.right = "5%";
-    ConceptType.top = "180px";
-    ConceptType.height = "5%";
-    ConceptType.paddingLeft = "550px";
-    wrapFront.addControl(ConceptType);
+    wrapFront.addControl(photoProperties);
 
-    const ConceptRole = new BABYLON.GUI.TextBlock(
-      "ConceptRole",
-      `Деятельность: ${role}`
-    );
-    ConceptRole.fontSize = 33;
-    ConceptRole.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    ConceptRole.textHorizontalAlignment =
-      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    ConceptRole.right = "5%";
-    ConceptRole.top = "240px";
-    ConceptRole.height = "5%";
-    ConceptRole.paddingLeft = "550px";
-    wrapFront.addControl(ConceptRole);
-
+    //кнопка закрытия карточки
     let closeButton = BABYLON.GUI.Button.CreateSimpleButton("Card_Close", "X");
-    closeButton.accessibilityTag = {
-      description: "close",
-    };
     closeButton.background = "black";
     closeButton.color = "white";
     closeButton.fontSize = 40;
     closeButton.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
     closeButton.horizontalAlignment =
       BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-    closeButton.top = "0";
     closeButton.height = "5%";
-    closeButton.width = "5%";
+    closeButton.width = "10%";
     wrapFront.addControl(closeButton);
+
     closeButton.onPointerClickObservable.add(() => {
       card.setEnabled(false);
       wrapper.setEnabled(true);
     });
 
+    //кнопка переключения на характеристики
+    let Properties_button = BABYLON.GUI.Button.CreateSimpleButton(
+      "Card_properties",
+      "Характеристики"
+    );
+    Properties_button.background = "rgb(0,68,255)";
+    Properties_button.color = "white";
+    Properties_button.fontSize = 40;
+    Properties_button.verticalAlignment =
+      BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    Properties_button.horizontalAlignment =
+      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+    Properties_button.top = "5%";
+    Properties_button.height = "5%";
+    Properties_button.width = "50%";
+    wrapFront.addControl(Properties_button);
+
+    Properties_button.onPointerClickObservable.add(() => {
+      photoConnections.isVisible = false;
+      photoProperties.isVisible = true;
+    });
+
+    //кнопка переключения на связи
+    let connections_button = BABYLON.GUI.Button.CreateSimpleButton(
+      "connections_button",
+      "Связи"
+    );
+    connections_button.background = "rgb(0,68,255)";
+    connections_button.color = "white";
+    connections_button.fontSize = 40;
+    connections_button.verticalAlignment =
+      BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    connections_button.horizontalAlignment =
+      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+    connections_button.left = "50%";
+    connections_button.top = "5%";
+    connections_button.height = "5%";
+    connections_button.width = "50%";
+    wrapFront.addControl(connections_button);
+
+    connections_button.onPointerClickObservable.add(() => {
+      photoProperties.isVisible = false;
+      photoConnections.isVisible = true;
+    });
     return card;
   };
 
