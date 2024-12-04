@@ -42,7 +42,7 @@
       "type": "Персона",
       "url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Василий_Васильевич_Корвин-Круковский%2C_1874_год.png",
       "connections": {
-        "persons": ["2", "4"],
+        "persons": ["2"],
         "organizations": ["6"],
         "communities": ["9"]
       }

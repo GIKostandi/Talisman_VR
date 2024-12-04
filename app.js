@@ -35,7 +35,7 @@ var createScene = function () {
   // Свет
   const light1 = new BABYLON.HemisphericLight(
     "light",
-    new BABYLON.Vector3(1, 1, 0),
+    new BABYLON.Vector3(0, 1, 0),
     scene
   );
   // Свет
@@ -232,7 +232,6 @@ var createScene = function () {
   // Хранилище для всех созданных мешей
   const objectsMap = {};
 
-  // Функция для создания объекта
   const createObject = async (
     modelName,
     id,
@@ -279,26 +278,108 @@ var createScene = function () {
           )
         );
 
+        // Функция для создания анимации подпрыгивания
+        const createBounceAnimation = (targetMesh) => {
+          const bounceAnimation = new BABYLON.Animation(
+            "bounceAnimation",
+            "position.y",
+            30, // FPS
+            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+          );
+
+          const keys1 = [
+            { frame: 0, value: targetMesh.position.y },
+            { frame: 10, value: targetMesh.position.y + 0.1 },
+            { frame: 20, value: targetMesh.position.y },
+          ];
+
+          bounceAnimation.setKeys(keys1);
+          targetMesh.animations.push(bounceAnimation);
+          scene.beginAnimation(targetMesh, 0, 20, true); // Запуск анимации
+        };
+
+        // Функция для возврата объекта на исходную позицию
+        const createReturnAnimation = (targetMesh, originalY) => {
+          const returnAnimation = new BABYLON.Animation(
+            "returnAnimation",
+            "position.y",
+            30, // FPS
+            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+          );
+
+          const keys2 = [
+            { frame: 0, value: targetMesh.position.y },
+            { frame: 10, value: originalY },
+          ];
+
+          returnAnimation.setKeys(keys2);
+          targetMesh.animations.push(returnAnimation);
+          scene.beginAnimation(targetMesh, 0, 10, false); // Одиночная анимация
+        };
+
         // Поднятие объекта и связанных объектов при наведении
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOverTrigger,
             () => {
               // Поднять текущий объект
+              // createBounceAnimation(mesh);
               mesh.position.y += 0.07;
 
-              // Поднять связанные объекты
+              // Создаем и применяем белый материал для текущего объекта
+              if (!mesh.whiteMaterial) {
+                const whiteMaterial = new BABYLON.StandardMaterial(
+                  "whiteMaterial",
+                  scene
+                );
+                whiteMaterial.diffuseColor = BABYLON.Color3.White();
+                whiteMaterial.emissiveColor = BABYLON.Color3.White();
+                mesh.whiteMaterial = whiteMaterial;
+              }
+              mesh.material = mesh.whiteMaterial;
+
+              // Создаем зелёный материал для связанных объектов, если ещё не существует
+              if (!scene.glowMaterial) {
+                const glowMaterial = new BABYLON.StandardMaterial(
+                  "glowMaterial",
+                  scene
+                );
+                glowMaterial.emissiveColor = BABYLON.Color3.Green();
+                glowMaterial.diffuseColor = BABYLON.Color3.Black(); // Базовый чёрный фон
+                scene.glowMaterial = glowMaterial;
+
+                // Анимация изменения свечения
+                scene.registerBeforeRender(() => {
+                  const time = performance.now() * 0.0045; // Время для эффекта
+                  const glowIntensity = (Math.sin(time) + 1) / 2; // Меняется от 0 до 1
+                  glowMaterial.emissiveColor = BABYLON.Color3.Lerp(
+                    BABYLON.Color3.Green(),
+                    BABYLON.Color3.Blue(),
+                    glowIntensity
+                  );
+                });
+              }
+
+              // Поднять связанные объекты и сменить их материал на анимированный зелёный
               if (connections) {
                 const connectedIds = [
                   ...(connections.persons || []),
                   ...(connections.organizations || []),
                   ...(connections.communities || []),
                 ];
-                console.log(connectedIds);
                 connectedIds.forEach((connectedId) => {
                   const connectedMesh = objectsMap[connectedId];
                   if (connectedMesh) {
-                    connectedMesh.position.y += 0.07;
+                    createBounceAnimation(connectedMesh);
+                    connectedMesh.originalMaterial = connectedMesh.material;
+                    connectedMesh.material = scene.glowMaterial;
+
+                    // Сохраняем начальную позицию для связанных объектов
+                    if (!connectedMesh.originalY) {
+                      connectedMesh.originalY = connectedMesh.position.y;
+                    }
                   }
                 });
               }
@@ -306,15 +387,18 @@ var createScene = function () {
           )
         );
 
-        // Вернуть объекты на место при выходе мыши
+        // Вернуть объекты на место и восстановить исходный материал при выходе мыши
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOutTrigger,
             () => {
-              // Вернуть текущий объект
+              // Остановить анимацию для текущего объекта
+              // scene.stopAnimation(mesh);
+              // createReturnAnimation(mesh, positionY);
               mesh.position.y -= 0.07;
+              mesh.material = mesh.originalMaterial;
 
-              // Вернуть связанные объекты
+              // Остановить анимацию для связанных объектов и вернуть их на место
               if (connections) {
                 const connectedIds = [
                   ...(connections.persons || []),
@@ -324,7 +408,17 @@ var createScene = function () {
                 connectedIds.forEach((connectedId) => {
                   const connectedMesh = objectsMap[connectedId];
                   if (connectedMesh) {
-                    connectedMesh.position.y -= 0.07;
+                    // Для связанных объектов остановка анимации не требуется,
+                    // они должны быть возвращены на свои исходные позиции независимо
+                    scene.stopAnimation(connectedMesh); // Можно убрать, если хотите, чтобы анимация продолжалась.
+                    // Возврат на исходную позицию для связанных объектов
+                    if (connectedMesh.originalY !== undefined) {
+                      createReturnAnimation(
+                        connectedMesh,
+                        connectedMesh.originalY // Используем сохраненную позицию для возврата
+                      );
+                    }
+                    connectedMesh.material = connectedMesh.originalMaterial;
                   }
                 });
               }
@@ -396,14 +490,13 @@ var createScene = function () {
 
   const createConceptCard = (photo_properties, photo_connections) => {
     // Размеры картинки
-    const imageWidth = 1003;
-    const imageHeight = 1621;
-
+    const imageWidth = 1920;
+    const imageHeight = 1080;
     // Вычисляем соотношение сторон
     const aspectRatio = imageWidth / imageHeight;
 
     // Определяем желаемую высоту или ширину плоскости
-    const desiredHeight = 5; // Например, высота 10 единиц
+    const desiredHeight = 8; // Например, высота 10 единиц
     const desiredWidth = desiredHeight * aspectRatio;
 
     // Создаем плоскость с заданными размерами
@@ -411,6 +504,7 @@ var createScene = function () {
       width: desiredWidth,
       height: desiredHeight,
     });
+    card.position.z = -8;
     // let card = BABYLON.MeshBuilder.CreatePlane("card", { size: 10 });
     card.rotation = new BABYLON.Vector3(0, Math.PI, 0);
     card.setEnabled(false);
