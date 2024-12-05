@@ -14,9 +14,8 @@
     {
       "id": "2",
       "name": "Софья Владимировна Ковалевская",
-      "role": "Личность",
-      "type": "Персона",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Sofja_Wassiljewna_Kowalewskaja_1_%28Remini_enhanced%29.jpg",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["3", "4"],
         "organizations": ["6"],
@@ -26,9 +25,8 @@
     {
       "id": "3",
       "name": "Владимир Онуфриевич Ковалевский",
-      "role": "Личность",
-      "type": "Персона",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Василий_Васильевич_Корвин-Круковский%2C_1874_год.png",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["2", "4"],
         "organizations": ["6"],
@@ -38,9 +36,8 @@
     {
       "id": "4",
       "name": "Василий Васильевич Корвин-Круковский",
-      "role": "Личность",
-      "type": "Персона",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Василий_Васильевич_Корвин-Круковский%2C_1874_год.png",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["2"],
         "organizations": ["6"],
@@ -50,8 +47,8 @@
     {
       "id": "5",
       "name": "Елизавета Федоровна Корвин-Круковская",
-      "role": "Личность",
-      "type": "Персона",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["3"],
         "organizations": ["7"],
@@ -63,8 +60,8 @@
     {
       "id": "6",
       "name": "Петербургская академия наук",
-      "role": "Образование",
-      "type": "Образовательное учреждение",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["4"],
         "communities": ["10"]
@@ -73,8 +70,8 @@
     {
       "id": "7",
       "name": "Шведская королевская академия наук",
-      "role": "Образование",
-      "type": "Образовательное учреждение",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -83,8 +80,8 @@
     {
       "id": "8",
       "name": "Общество математиков",
-      "role": "Образование",
-      "type": "Образовательное учреждение",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -95,8 +92,8 @@
     {
       "id": "9",
       "name": "Россия",
-      "role": "Страна",
-      "type": "Государство",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["2", "3"],
         "organizations": ["6"]
@@ -105,8 +102,8 @@
     {
       "id": "10",
       "name": "Германия",
-      "role": "Страна",
-      "type": "Государство",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["4", "5"],
         "organizations": ["7"]
@@ -115,8 +112,8 @@
     {
       "id": "11",
       "name": "Швеция",
-      "role": "Страна",
-      "type": "Государство",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["5"],
         "organizations": ["8"]
@@ -127,8 +124,8 @@
     {
       "id": "12",
       "name": "Геттинский универститет",
-      "role": "Образование",
-      "type": "Образовательное учреждение",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["2", "3"],
         "communities": ["9"]
@@ -137,8 +134,8 @@
     {
       "id": "13",
       "name": "Санкт — Петербургский университет",
-      "role": "Образование",
-      "type": "Образовательное учреждение",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -147,8 +144,50 @@
     {
       "id": "14",
       "name": "Гейдельберский университет",
-      "role": "Образование",
-      "type": "Образовательное учреждение",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "connections": {
+        "persons": ["5"],
+        "communities": ["11"]
+      }
+    }
+  ],
+  "publication": [
+    {
+      "id": "15",
+      "name": "Теорема Ковалевской",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "connections": {
+        "persons": ["2", "3"],
+        "communities": ["9"]
+      }
+    },
+    {
+      "id": "16",
+      "name": "Теория Ковалевской в механике",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "connections": {
+        "persons": ["5"],
+        "communities": ["11"]
+      }
+    },
+    {
+      "id": "17",
+      "name": "Литературные произведения и мемуары",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "connections": {
+        "persons": ["5"],
+        "communities": ["11"]
+      }
+    },
+    {
+      "id": "18",
+      "name": "Работа «Новые задачи в механике»",
+      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
+      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]

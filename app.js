@@ -28,7 +28,7 @@ var createScene = function () {
   );
 
   // Настраиваем свойства света
-  pointLight.intensity = 1; // Яркость света
+  pointLight.intensity = 0.3; // Яркость света
   pointLight.diffuse = new BABYLON.Color3(1, 1, 1); // Цвет рассеянного света
   pointLight.specular = new BABYLON.Color3(1, 1, 1); // Цвет бликов
 
@@ -109,9 +109,8 @@ var createScene = function () {
       model: "./models/education/education.obj",
       id: education.id,
       name: education.name,
-      type: education.type,
-      role: education.role,
-      url: education.url,
+      photo_properties: education.photo_properties,
+      photo_connections: education.photo_connections,
       connections: education.connections,
     })),
     //Персона
@@ -128,6 +127,8 @@ var createScene = function () {
       model: "./models/organization/organization.obj",
       id: organization.id,
       name: organization.name,
+      photo_properties: organization.photo_properties,
+      photo_connections: organization.photo_connections,
       connections: organization.connections,
     })),
     //Сообщества
@@ -136,6 +137,15 @@ var createScene = function () {
       id: country.id,
       name: country.name,
       connections: country.connections,
+    })),
+    //Публикации
+    ...jsonData.publication.map((publication) => ({
+      model: "./models/publication/publication.obj",
+      id: publication.id,
+      name: publication.name,
+      photo_properties: publication.photo_properties,
+      photo_connections: publication.photo_connections,
+      connections: publication.connections,
     })),
   ];
   // Функция для перемешивания массива
@@ -261,13 +271,11 @@ var createScene = function () {
 
         mesh.actionManager = new BABYLON.ActionManager(scene);
 
-        // Сохранение объекта в хранилище
         objectsMap[id] = mesh;
 
-        // Создание карточки
         const card = createConceptCard(photo_properties, photo_connections);
 
-        // Отображение карточки концепта при нажатии
+        //Карточка концекпта при нажатии
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
@@ -278,7 +286,7 @@ var createScene = function () {
           )
         );
 
-        // Функция для создания анимации подпрыгивания
+        //анимация подпрыгивания
         const createBounceAnimation = (targetMesh) => {
           const bounceAnimation = new BABYLON.Animation(
             "bounceAnimation",
@@ -296,10 +304,10 @@ var createScene = function () {
 
           bounceAnimation.setKeys(keys1);
           targetMesh.animations.push(bounceAnimation);
-          scene.beginAnimation(targetMesh, 0, 20, true); // Запуск анимации
+          scene.beginAnimation(targetMesh, 0, 20, true);
         };
 
-        // Функция для возврата объекта на исходную позицию
+        //возврат объекта на исходную позицию
         const createReturnAnimation = (targetMesh, originalY) => {
           const returnAnimation = new BABYLON.Animation(
             "returnAnimation",
@@ -324,11 +332,8 @@ var createScene = function () {
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOverTrigger,
             () => {
-              // Поднять текущий объект
               // createBounceAnimation(mesh);
               mesh.position.y += 0.07;
-
-              // Создаем и применяем белый материал для текущего объекта
               if (!mesh.whiteMaterial) {
                 const whiteMaterial = new BABYLON.StandardMaterial(
                   "whiteMaterial",
@@ -340,23 +345,23 @@ var createScene = function () {
               }
               mesh.material = mesh.whiteMaterial;
 
-              // Создаем зелёный материал для связанных объектов, если ещё не существует
+              //зелёный материал для связанных объектов
               if (!scene.glowMaterial) {
                 const glowMaterial = new BABYLON.StandardMaterial(
                   "glowMaterial",
                   scene
                 );
                 glowMaterial.emissiveColor = BABYLON.Color3.Green();
-                glowMaterial.diffuseColor = BABYLON.Color3.Black(); // Базовый чёрный фон
+                glowMaterial.diffuseColor = BABYLON.Color3.Black();
                 scene.glowMaterial = glowMaterial;
 
-                // Анимация изменения свечения
+                // Анимация свечения
                 scene.registerBeforeRender(() => {
-                  const time = performance.now() * 0.0045; // Время для эффекта
+                  const time = performance.now() * 0.005; // Время для эффекта
                   const glowIntensity = (Math.sin(time) + 1) / 2; // Меняется от 0 до 1
                   glowMaterial.emissiveColor = BABYLON.Color3.Lerp(
                     BABYLON.Color3.Green(),
-                    BABYLON.Color3.Blue(),
+                    BABYLON.Color3.White(),
                     glowIntensity
                   );
                 });
@@ -434,16 +439,16 @@ var createScene = function () {
   };
 
   // Обработка данных JSON
-  let positionX = -2.5;
-  let positionY = -2.4;
-  const maxItemsPerShelf = 5;
+  let positionX = -3;
+  let positionY = -1.5;
+  const maxItemsPerShelf = 6;
   let itemsOnCurrentShelf = 0;
 
   //отрисовка полки
   const createShelf = (positionY) => {
     const shelf = BABYLON.MeshBuilder.CreateBox(
       "shelf",
-      { height: 0.05, width: 6, depth: 0.5 },
+      { height: 0.04, width: 7, depth: 0.5 },
       scene
     );
     shelf.parent = wrapper;
@@ -468,7 +473,7 @@ var createScene = function () {
       if (itemsOnCurrentShelf >= maxItemsPerShelf) {
         positionY += 1.8;
         createShelf(positionY);
-        positionX = -2.5;
+        positionX = -3;
         itemsOnCurrentShelf = 0;
       }
 
@@ -482,29 +487,26 @@ var createScene = function () {
         object.photo_connections,
         object.connections
       );
-      console.log(createObject);
       positionX += 1.2;
       itemsOnCurrentShelf += 1;
     }
   })();
 
   const createConceptCard = (photo_properties, photo_connections) => {
-    // Размеры картинки
     const imageWidth = 1920;
     const imageHeight = 1080;
-    // Вычисляем соотношение сторон
-    const aspectRatio = imageWidth / imageHeight;
 
-    // Определяем желаемую высоту или ширину плоскости
-    const desiredHeight = 8; // Например, высота 10 единиц
+    const aspectRatio = imageWidth / imageHeight;
+    const desiredHeight = 8; //высота
     const desiredWidth = desiredHeight * aspectRatio;
 
-    // Создаем плоскость с заданными размерами
+    //плоскость с заданными размерами
     let card = BABYLON.MeshBuilder.CreatePlane("card", {
       width: desiredWidth,
       height: desiredHeight,
     });
-    card.position.z = -8;
+    card.position.z = -2;
+    card.position.y = 0;
     // let card = BABYLON.MeshBuilder.CreatePlane("card", { size: 10 });
     card.rotation = new BABYLON.Vector3(0, Math.PI, 0);
     card.setEnabled(false);
