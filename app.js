@@ -4,11 +4,13 @@ const engine = new BABYLON.Engine(canvas, true);
 const response = await fetch("./data/data.json"); // Загрузка JSON-файла
 const jsonData = await response.json();
 
-var createScene = function () {
+var createScene = async function () {
   const scene = new BABYLON.Scene(engine);
   scene.debugLayer.show(); //мониторинг сцены
   scene.clearColor = new BABYLON.Color4(1, 1, 1, 1); // Белый фон
 
+  const nover_sound = new BABYLON.Sound("hover", "sounds/hover.mp3", scene); //звук при наведении на концепт
+  const click_sound = new BABYLON.Sound("click", "sounds/click.mp3", scene); //звук при наведении на концепт
   // Камера
   const camera = new BABYLON.ArcRotateCamera(
     "Camera",
@@ -54,12 +56,9 @@ var createScene = function () {
   environment.ground.isVisible = false;
   environment.skybox.isVisible = false;
 
-  // Для использования виара
-  var vrHelper = scene.createDefaultVRExperience({
-    createDeviceOrientationCamera: false,
-    useXR: true,
+  const xrHelper = await scene.createDefaultXRExperienceAsync({
+    floorMeshes: [environment.ground],
   });
-
   //Сфера
   BABYLON.SceneLoader.ImportMesh(
     "",
@@ -101,7 +100,6 @@ var createScene = function () {
     scene
   );
   ground.isVisible = false;
-  vrHelper.enableTeleportation({ floorMeshes: [ground] });
 
   const allObjects = [
     //Образовательное учреждение
@@ -280,6 +278,7 @@ var createScene = function () {
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
             () => {
+              click_sound.play();
               wrapper.setEnabled(false);
               card.setEnabled(true);
             }
@@ -334,6 +333,7 @@ var createScene = function () {
             () => {
               // createBounceAnimation(mesh);
               mesh.position.y += 0.07;
+              nover_sound.play();
               if (!mesh.whiteMaterial) {
                 const whiteMaterial = new BABYLON.StandardMaterial(
                   "whiteMaterial",
@@ -553,6 +553,7 @@ var createScene = function () {
     wrapFront.addControl(closeButton);
 
     closeButton.onPointerClickObservable.add(() => {
+      click_sound.play();
       card.setEnabled(false);
       wrapper.setEnabled(true);
     });
@@ -575,6 +576,7 @@ var createScene = function () {
     wrapFront.addControl(Properties_button);
 
     Properties_button.onPointerClickObservable.add(() => {
+      click_sound.play();
       photoConnections.isVisible = false;
       photoProperties.isVisible = true;
     });
@@ -598,6 +600,7 @@ var createScene = function () {
     wrapFront.addControl(connections_button);
 
     connections_button.onPointerClickObservable.add(() => {
+      click_sound.play();
       photoProperties.isVisible = false;
       photoConnections.isVisible = true;
     });
@@ -607,12 +610,14 @@ var createScene = function () {
   return scene;
 };
 
-const scene = createScene();
+(async () => {
+  const scene = await createScene();
 
-engine.runRenderLoop(() => {
-  scene.render();
-});
+  engine.runRenderLoop(() => {
+    scene.render();
+  });
 
-window.addEventListener("resize", () => {
-  engine.resize();
-});
+  window.addEventListener("resize", () => {
+    engine.resize();
+  });
+})();
