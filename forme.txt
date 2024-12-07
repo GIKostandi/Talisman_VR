@@ -3,7 +3,7 @@ git add .
 git commit -m "какие изменения"
 git push -u origin main
 
-Обновить у себя (ВСе обновления обязательно в папке Talisman_vr):
+Обновить у себя (Все обновления обязательно в папке Talisman_vr):
 git pull origin main
 
 скачать репу с гита

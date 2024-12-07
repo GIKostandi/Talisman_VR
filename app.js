@@ -1,17 +1,17 @@
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 
-const response = await fetch("./data/data.json"); // Загрузка JSON-файла
+const response = await fetch("./data/data.json");
 const jsonData = await response.json();
 
 var createScene = async function () {
   const scene = new BABYLON.Scene(engine);
-  scene.debugLayer.show(); //мониторинг сцены
-  scene.clearColor = new BABYLON.Color4(1, 1, 1, 1); // Белый фон
+  scene.debugLayer.show();
+  scene.clearColor = new BABYLON.Color4(1, 1, 1, 1);
 
   const nover_sound = new BABYLON.Sound("hover", "sounds/hover.mp3", scene); //звук при наведении на концепт
   const click_sound = new BABYLON.Sound("click", "sounds/click.mp3", scene); //звук при наведении на концепт
-  // Камера
+
   const camera = new BABYLON.ArcRotateCamera(
     "Camera",
     Math.PI / 2,
@@ -22,17 +22,15 @@ var createScene = async function () {
   );
   camera.attachControl(canvas, true);
 
-  // Создаём точечный свет, который рассеивается во все стороны
   const pointLight = new BABYLON.PointLight(
     "pointLight",
-    new BABYLON.Vector3(0, 10, 0), // Позиция источника света
+    new BABYLON.Vector3(0, 10, 0),
     scene
   );
 
-  // Настраиваем свойства света
-  pointLight.intensity = 0.3; // Яркость света
-  pointLight.diffuse = new BABYLON.Color3(1, 1, 1); // Цвет рассеянного света
-  pointLight.specular = new BABYLON.Color3(1, 1, 1); // Цвет бликов
+  pointLight.intensity = 0.2;
+  pointLight.diffuse = new BABYLON.Color3(1, 1, 1);
+  pointLight.specular = new BABYLON.Color3(1, 1, 1);
 
   // Свет
   const light1 = new BABYLON.HemisphericLight(
@@ -67,7 +65,7 @@ var createScene = async function () {
     scene,
     function (meshes) {
       var skySphere = meshes[0];
-      skySphere.scaling = new BABYLON.Vector3(10, 10, 10); //размер
+      skySphere.scaling = new BABYLON.Vector3(10, 10, 10);
       skySphere.isPickable = false;
     }
   );
@@ -79,7 +77,7 @@ var createScene = async function () {
     scene,
     function (meshes) {
       var skySphere = meshes[0];
-      skySphere.scaling = new BABYLON.Vector3(1, 1, 1); //размер
+      skySphere.scaling = new BABYLON.Vector3(1, 1, 1);
       skySphere.isPickable = false;
     }
   );
@@ -129,7 +127,7 @@ var createScene = async function () {
       photo_connections: organization.photo_connections,
       connections: organization.connections,
     })),
-    //Сообщества
+    //Страна
     ...jsonData.country.map((country) => ({
       model: "./models/country/map.obj",
       id: country.id,
@@ -146,7 +144,6 @@ var createScene = async function () {
       connections: publication.connections,
     })),
   ];
-  // Функция для перемешивания массива
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -156,22 +153,19 @@ var createScene = async function () {
 
   shuffleArray(allObjects);
 
-  console.log(allObjects);
-
+  //Текст над концептом
   const createLabel = (name, position, scene) => {
-    // Создаем плоскость для отображения текста
     const plane = BABYLON.MeshBuilder.CreatePlane(
       "labelPlane",
       { width: 1, height: 0.6 },
       scene
     );
     plane.position = position.clone();
-    plane.position.y += 1.15; // Поднять текст над объектом
+    plane.position.y += 1.15;
     plane.position.z -= 0.2;
     plane.rotation = new BABYLON.Vector3(0, Math.PI, 0);
     plane.parent = wrapper;
 
-    // Создаем динамическую текстуру
     const textureWidth = 512;
     const textureHeight = 256;
     const dynamicTexture = new BABYLON.DynamicTexture(
@@ -181,19 +175,16 @@ var createScene = async function () {
       false
     );
 
-    // Получаем контекст для рисования текста
     const ctx = dynamicTexture.getContext();
     ctx.clearRect(0, 0, textureWidth, textureHeight);
 
-    // Настройки текста
-    ctx.fillStyle = "transparent"; // Прозрачный фон
+    ctx.fillStyle = "transparent";
     ctx.fillRect(0, 0, textureWidth, textureHeight);
     ctx.font = "italic bold 50px Arial";
-    ctx.fillStyle = "rgb(0,68,255)"; // Цвет текста
+    ctx.fillStyle = "rgb(0,68,255)";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Логика разбиения текста на строки
     const maxWidth = textureWidth - 20;
     const lineHeight = 55;
     const lines = [];
@@ -223,13 +214,11 @@ var createScene = async function () {
       ctx.fillText(line, textureWidth / 2, yStart + index * lineHeight);
     });
 
-    // Обновляем текстуру
     dynamicTexture.update();
 
-    // Применяем текстуру на материал и присваиваем плоскости
     const material = new BABYLON.StandardMaterial("labelMaterial", scene);
     material.diffuseTexture = dynamicTexture;
-    material.opacityTexture = dynamicTexture; // Поддержка прозрачности
+    material.opacityTexture = dynamicTexture;
     material.backFaceCulling = false;
 
     plane.material = material;
@@ -237,7 +226,6 @@ var createScene = async function () {
     return plane;
   };
 
-  // Хранилище для всех созданных мешей
   const objectsMap = {};
 
   const createObject = async (
@@ -273,7 +261,7 @@ var createScene = async function () {
 
         const card = createConceptCard(photo_properties, photo_connections);
 
-        //Карточка концекпта при нажатии
+        //Карточка концепта при нажатии
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger,
@@ -323,7 +311,7 @@ var createScene = async function () {
 
           returnAnimation.setKeys(keys2);
           targetMesh.animations.push(returnAnimation);
-          scene.beginAnimation(targetMesh, 0, 10, false); // Одиночная анимация
+          scene.beginAnimation(targetMesh, 0, 10, false);
         };
 
         // Поднятие объекта и связанных объектов при наведении
@@ -355,10 +343,9 @@ var createScene = async function () {
                 glowMaterial.diffuseColor = BABYLON.Color3.Black();
                 scene.glowMaterial = glowMaterial;
 
-                // Анимация свечения
                 scene.registerBeforeRender(() => {
-                  const time = performance.now() * 0.005; // Время для эффекта
-                  const glowIntensity = (Math.sin(time) + 1) / 2; // Меняется от 0 до 1
+                  const time = performance.now() * 0.005;
+                  const glowIntensity = (Math.sin(time) + 1) / 2;
                   glowMaterial.emissiveColor = BABYLON.Color3.Lerp(
                     BABYLON.Color3.Green(),
                     BABYLON.Color3.White(),
@@ -367,7 +354,6 @@ var createScene = async function () {
                 });
               }
 
-              // Поднять связанные объекты и сменить их материал на анимированный зелёный
               if (connections) {
                 const connectedIds = [
                   ...(connections.persons || []),
@@ -380,8 +366,6 @@ var createScene = async function () {
                     createBounceAnimation(connectedMesh);
                     connectedMesh.originalMaterial = connectedMesh.material;
                     connectedMesh.material = scene.glowMaterial;
-
-                    // Сохраняем начальную позицию для связанных объектов
                     if (!connectedMesh.originalY) {
                       connectedMesh.originalY = connectedMesh.position.y;
                     }
@@ -392,18 +376,14 @@ var createScene = async function () {
           )
         );
 
-        // Вернуть объекты на место и восстановить исходный материал при выходе мыши
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOutTrigger,
             () => {
-              // Остановить анимацию для текущего объекта
               // scene.stopAnimation(mesh);
               // createReturnAnimation(mesh, positionY);
               mesh.position.y -= 0.07;
               mesh.material = mesh.originalMaterial;
-
-              // Остановить анимацию для связанных объектов и вернуть их на место
               if (connections) {
                 const connectedIds = [
                   ...(connections.persons || []),
@@ -413,14 +393,11 @@ var createScene = async function () {
                 connectedIds.forEach((connectedId) => {
                   const connectedMesh = objectsMap[connectedId];
                   if (connectedMesh) {
-                    // Для связанных объектов остановка анимации не требуется,
-                    // они должны быть возвращены на свои исходные позиции независимо
-                    scene.stopAnimation(connectedMesh); // Можно убрать, если хотите, чтобы анимация продолжалась.
-                    // Возврат на исходную позицию для связанных объектов
+                    scene.stopAnimation(connectedMesh);
                     if (connectedMesh.originalY !== undefined) {
                       createReturnAnimation(
                         connectedMesh,
-                        connectedMesh.originalY // Используем сохраненную позицию для возврата
+                        connectedMesh.originalY
                       );
                     }
                     connectedMesh.material = connectedMesh.originalMaterial;
@@ -438,7 +415,6 @@ var createScene = async function () {
     }
   };
 
-  // Обработка данных JSON
   let positionX = -3;
   let positionY = -1.5;
   const maxItemsPerShelf = 6;
@@ -460,7 +436,7 @@ var createScene = async function () {
       125 / 255,
       218 / 255
     );
-    shelfMaterial.alpha = 0.6; // Устанавливаем прозрачность материала
+    shelfMaterial.alpha = 0.6;
     shelf.material = shelfMaterial;
 
     return shelf;
@@ -492,15 +468,15 @@ var createScene = async function () {
     }
   })();
 
+  //Переделать (2 модели для каждого концепта)
   const createConceptCard = (photo_properties, photo_connections) => {
     const imageWidth = 1920;
     const imageHeight = 1080;
 
     const aspectRatio = imageWidth / imageHeight;
-    const desiredHeight = 8; //высота
+    const desiredHeight = 8;
     const desiredWidth = desiredHeight * aspectRatio;
 
-    //плоскость с заданными размерами
     let card = BABYLON.MeshBuilder.CreatePlane("card", {
       width: desiredWidth,
       height: desiredHeight,
