@@ -3,8 +3,8 @@
     {
       "id": "1",
       "name": "Софья Васильевна Ковалевская",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["2", "3", "4"],
         "organizations": ["6"],
@@ -14,8 +14,8 @@
     {
       "id": "2",
       "name": "Софья Владимировна Ковалевская",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["3", "4"],
         "organizations": ["6"],
@@ -25,8 +25,8 @@
     {
       "id": "3",
       "name": "Владимир Онуфриевич Ковалевский",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["2", "4"],
         "organizations": ["6"],
@@ -36,8 +36,8 @@
     {
       "id": "4",
       "name": "Василий Васильевич Корвин-Круковский",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["2"],
         "organizations": ["6"],
@@ -47,8 +47,8 @@
     {
       "id": "5",
       "name": "Елизавета Федоровна Корвин-Круковская",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["3"],
         "organizations": ["7"],
@@ -60,8 +60,8 @@
     {
       "id": "6",
       "name": "Петербургская академия наук",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["4"],
         "communities": ["10"]
@@ -70,8 +70,8 @@
     {
       "id": "7",
       "name": "Шведская королевская академия наук",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -79,9 +79,9 @@
     },
     {
       "id": "8",
-      "name": "Общество математиков",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "name": "Парижское математическое общество",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -92,8 +92,8 @@
     {
       "id": "9",
       "name": "Россия",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["2", "3"],
         "organizations": ["6"]
@@ -102,8 +102,8 @@
     {
       "id": "10",
       "name": "Германия",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["4", "5"],
         "organizations": ["7"]
@@ -112,8 +112,8 @@
     {
       "id": "11",
       "name": "Швеция",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
         "organizations": ["8"]
@@ -124,8 +124,8 @@
     {
       "id": "12",
       "name": "Геттинский универститет",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["2", "3"],
         "communities": ["9"]
@@ -134,8 +134,8 @@
     {
       "id": "13",
       "name": "Санкт — Петербургский университет",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -144,10 +144,11 @@
     {
       "id": "14",
       "name": "Гейдельберский университет",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
+
         "communities": ["11"]
       }
     }
@@ -156,8 +157,8 @@
     {
       "id": "15",
       "name": "Теорема Ковалевской",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["2", "3"],
         "communities": ["9"]
@@ -166,8 +167,8 @@
     {
       "id": "16",
       "name": "Теория Ковалевской в механике",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -176,8 +177,8 @@
     {
       "id": "17",
       "name": "Литературные произведения и мемуары",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -186,8 +187,8 @@
     {
       "id": "18",
       "name": "Работа «Новые задачи в механике»",
-      "photo_properties": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_properties.png",
-      "photo_connections": "https://localhost:5500/Talisman_VR/photos/Kovalevskaya_connections.png",
+      "photo_properties": "cards/concept_1/properties.obj",
+      "photo_connections": "cards/concept_1/properties.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]

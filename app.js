@@ -10,7 +10,7 @@ var createScene = async function () {
   scene.clearColor = new BABYLON.Color4(1, 1, 1, 1);
 
   const nover_sound = new BABYLON.Sound("hover", "sounds/hover.mp3", scene); //звук при наведении на концепт
-  const click_sound = new BABYLON.Sound("click", "sounds/click.mp3", scene); //звук при наведении на концепт
+  const click_sound = new BABYLON.Sound("click", "sounds/click.mp3", scene); //звук при нажатии на концепт
 
   const camera = new BABYLON.ArcRotateCamera(
     "Camera",
@@ -132,6 +132,8 @@ var createScene = async function () {
       model: "./models/country/map.obj",
       id: country.id,
       name: country.name,
+      photo_properties: country.photo_properties,
+      photo_connections: country.photo_connections,
       connections: country.connections,
     })),
     //Публикации
@@ -245,6 +247,33 @@ var createScene = async function () {
         modelName,
         scene
       );
+      // Загрузка двух моделей внутри этой функции
+      const card_properties = await BABYLON.SceneLoader.ImportMeshAsync(
+        "",
+        "https://localhost:5500/Talisman_VR/",
+        photo_properties,
+        scene
+      );
+      const card_connections = await BABYLON.SceneLoader.ImportMeshAsync(
+        "",
+        "https://localhost:5500/Talisman_VR/",
+        photo_connections,
+        scene
+      );
+      if (card_properties.meshes.length > 0) {
+        card_properties.meshes.forEach((mesh) => {
+          // mesh.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+          mesh.setEnabled(false);
+        });
+      }
+
+      if (card_connections.meshes.length > 0) {
+        card_connections.meshes.forEach((mesh) => {
+          // mesh.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+          mesh.setEnabled(false);
+        });
+      }
+
       if (result.meshes.length > 0) {
         const mesh = result.meshes[0];
         mesh.parent = wrapper;
@@ -259,8 +288,6 @@ var createScene = async function () {
 
         objectsMap[id] = mesh;
 
-        const card = createConceptCard(photo_properties, photo_connections);
-
         //Карточка концепта при нажатии
         mesh.actionManager.registerAction(
           new BABYLON.ExecuteCodeAction(
@@ -268,7 +295,7 @@ var createScene = async function () {
             () => {
               click_sound.play();
               wrapper.setEnabled(false);
-              card.setEnabled(true);
+              createConceptCard(card_properties, card_connections);
             }
           )
         );
@@ -319,7 +346,6 @@ var createScene = async function () {
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOverTrigger,
             () => {
-              // createBounceAnimation(mesh);
               mesh.position.y += 0.07;
               nover_sound.play();
               if (!mesh.whiteMaterial) {
@@ -380,8 +406,6 @@ var createScene = async function () {
           new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPointerOutTrigger,
             () => {
-              // scene.stopAnimation(mesh);
-              // createReturnAnimation(mesh, positionY);
               mesh.position.y -= 0.07;
               mesh.material = mesh.originalMaterial;
               if (connections) {
@@ -468,119 +492,107 @@ var createScene = async function () {
     }
   })();
 
-  //Переделать (2 модели для каждого концепта)
-  const createConceptCard = (photo_properties, photo_connections) => {
-    const imageWidth = 1920;
-    const imageHeight = 1080;
+  const createConceptCard = async (card_properties, card_connections) => {
+    if (
+      card_properties &&
+      card_properties.meshes.length > 0 &&
+      card_connections &&
+      card_connections.meshes.length > 0
+    ) {
+      const mesh1 = card_properties.meshes[0];
+      const mesh2 = card_connections.meshes[0];
+      mesh1.setEnabled(true);
+      mesh2.setEnabled(false);
 
-    const aspectRatio = imageWidth / imageHeight;
-    const desiredHeight = 8;
-    const desiredWidth = desiredHeight * aspectRatio;
+      mesh1.position = new BABYLON.Vector3(0, 0, 0);
+      mesh2.position = new BABYLON.Vector3(0, 0, 0);
 
-    let card = BABYLON.MeshBuilder.CreatePlane("card", {
-      width: desiredWidth,
-      height: desiredHeight,
-    });
-    card.position.z = -2;
-    card.position.y = 0;
-    // let card = BABYLON.MeshBuilder.CreatePlane("card", { size: 10 });
-    card.rotation = new BABYLON.Vector3(0, Math.PI, 0);
-    card.setEnabled(false);
+      var manager = new BABYLON.GUI.GUI3DManager(scene);
+      //Главная панель
+      var mainPanel = new BABYLON.GUI.StackPanel3D();
+      mainPanel.margin = 0.2;
+      manager.addControl(mainPanel);
+      mainPanel.position.y = 3.5;
+      mainPanel.position.x = 6.4;
+      mainPanel.isVertical = true;
+      // панель для кнопки скрыть
+      var closePanel = new BABYLON.GUI.StackPanel3D();
+      closePanel.margin = 0.2;
+      manager.addControl(closePanel);
+      closePanel.position.y = 5;
+      closePanel.position.x = -6.4;
+      closePanel.isVertical = true;
 
-    let adt = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(card);
+      const create3DButton = (
+        action,
+        targetPanel,
+        buttonColor,
+        imageUrl,
+        scaleX,
+        scaleY,
+        scaleZ
+      ) => {
+        var button = new BABYLON.GUI.HolographicButton("button");
+        targetPanel.addControl(button);
+        button.onPointerUpObservable.add(action);
+        button.scaling = new BABYLON.Vector3(scaleX, scaleY, scaleZ);
+        button.mesh.rotation = new BABYLON.Vector3(0, Math.PI, 0);
 
-    let wrapFront = new BABYLON.GUI.Rectangle("Card_wrapFront");
-    wrapFront.width = "100%";
-    wrapFront.background = "white";
-    adt.addControl(wrapFront);
+        var material = new BABYLON.StandardMaterial("buttonMaterial", scene);
+        material.diffuseColor = BABYLON.Color3.FromHexString(buttonColor);
+        button.mesh.material = material;
 
-    //Фотка со связями
-    let photoConnections = new BABYLON.GUI.Image(
-      "Card_ThumbnailImage",
-      photo_connections
-    );
-    photoConnections.width = "100%";
-    photoConnections.height = "100%";
-    photoConnections.horizontalAlignment =
-      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    wrapFront.addControl(photoConnections);
+        button.imageUrl = imageUrl;
+      };
 
-    //Фотка с характеристиками
-    let photoProperties = new BABYLON.GUI.Image(
-      "Card_ThumbnailImage",
-      photo_properties
-    );
-    photoProperties.width = "100%";
-    photoProperties.height = "100%";
-    photoProperties.horizontalAlignment =
-      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    wrapFront.addControl(photoProperties);
+      create3DButton(
+        () => {
+          mesh1.setEnabled(true);
+          mesh2.setEnabled(false);
+        },
+        mainPanel,
+        "#035ba9",
+        "https://localhost:5500/Talisman_VR/icons/Характеристики.png",
+        1,
+        2,
+        1
+      );
 
-    //кнопка закрытия карточки
-    let closeButton = BABYLON.GUI.Button.CreateSimpleButton("Card_Close", "X");
-    closeButton.background = "black";
-    closeButton.color = "white";
-    closeButton.fontSize = 40;
-    closeButton.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    closeButton.horizontalAlignment =
-      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-    closeButton.height = "5%";
-    closeButton.width = "10%";
-    wrapFront.addControl(closeButton);
+      create3DButton(
+        () => {
+          mesh1.setEnabled(false);
+          mesh2.setEnabled(true);
+        },
+        mainPanel,
+        "#035ba9",
+        "https://localhost:5500/Talisman_VR/icons/Связи.png",
+        1,
+        2,
+        1
+      );
 
-    closeButton.onPointerClickObservable.add(() => {
-      click_sound.play();
-      card.setEnabled(false);
-      wrapper.setEnabled(true);
-    });
-
-    //кнопка переключения на характеристики
-    let Properties_button = BABYLON.GUI.Button.CreateSimpleButton(
-      "Card_properties",
-      "Характеристики"
-    );
-    Properties_button.background = "rgb(0,68,255)";
-    Properties_button.color = "white";
-    Properties_button.fontSize = 40;
-    Properties_button.verticalAlignment =
-      BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    Properties_button.horizontalAlignment =
-      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    Properties_button.top = "5%";
-    Properties_button.height = "5%";
-    Properties_button.width = "50%";
-    wrapFront.addControl(Properties_button);
-
-    Properties_button.onPointerClickObservable.add(() => {
-      click_sound.play();
-      photoConnections.isVisible = false;
-      photoProperties.isVisible = true;
-    });
-
-    //кнопка переключения на связи
-    let connections_button = BABYLON.GUI.Button.CreateSimpleButton(
-      "connections_button",
-      "Связи"
-    );
-    connections_button.background = "rgb(0,68,255)";
-    connections_button.color = "white";
-    connections_button.fontSize = 40;
-    connections_button.verticalAlignment =
-      BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    connections_button.horizontalAlignment =
-      BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-    connections_button.left = "50%";
-    connections_button.top = "5%";
-    connections_button.height = "5%";
-    connections_button.width = "50%";
-    wrapFront.addControl(connections_button);
-
-    connections_button.onPointerClickObservable.add(() => {
-      click_sound.play();
-      photoProperties.isVisible = false;
-      photoConnections.isVisible = true;
-    });
-    return card;
+      create3DButton(
+        () => {
+          mesh1.setEnabled(false);
+          mesh2.setEnabled(false);
+          wrapper.setEnabled(true);
+          mainPanel.children.forEach((button) => {
+            button.isVisible = false;
+          });
+          closePanel.children.forEach((button) => {
+            button.isVisible = false;
+          });
+        },
+        closePanel,
+        "#FF5733",
+        "https://localhost:5500/Talisman_VR/icons/close.png",
+        1,
+        1,
+        1
+      );
+    } else {
+      console.error("Не удалось загрузить модели");
+    }
   };
 
   return scene;
