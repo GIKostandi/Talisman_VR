@@ -552,7 +552,7 @@ var createScene = async function () {
         },
         mainPanel,
         "#035ba9",
-        "https://gikostandi.github.io/Talisman_VR/icons/Связи.png",
+        "https://gikostandi.github.io/icons/Связи.png",
         1,
         2,
         1
@@ -565,7 +565,7 @@ var createScene = async function () {
         },
         mainPanel,
         "#035ba9",
-        "https://gikostandi.github.io/Talisman_VR/icons/Характеристики.png",
+        "https://gikostandi.github.io/icons/Характеристики.png",
         1,
         2,
         1
@@ -585,7 +585,7 @@ var createScene = async function () {
         },
         closePanel,
         "#FF5733",
-        "https://gikostandi.github.io/Talisman_VR/icons/close.png",
+        "https://gikostandi.github.io/icons/close.png",
         1,
         1,
         1
