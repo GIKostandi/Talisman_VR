@@ -1,6 +1,6 @@
 # Blender 4.3.0
 # www.blender.org
-mtllib C10_H1.mtl
+mtllib cards/concept_10/C10_H1.mtl
 o C10_H1
 v -4.500000 -4.320001 0.000000
 v 0.000000 -4.320001 0.000000
