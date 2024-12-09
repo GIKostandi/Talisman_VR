@@ -415,7 +415,9 @@ var createScene = async function () {
                 const connectedIds = [
                   ...(connections.persons || []),
                   ...(connections.organizations || []),
-                  ...(connections.communities || []),
+                  ...(connections.countries || []),
+                  ...(connections.educations || []),
+                  ...(connections.publications || []),
                 ];
                 connectedIds.forEach((connectedId) => {
                   const connectedMesh = objectsMap[connectedId];
