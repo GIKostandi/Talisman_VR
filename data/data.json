@@ -15,7 +15,7 @@
       "id": "4",
       "name": "Софья Владимировна Ковалевская",
       "photo_properties": "cards/concept_4/C4_H1.obj",
-      "photo_connections": "cards/concept_4/C1_S1.obj",
+      "photo_connections": "cards/concept_4/C4_S1.obj",
       "connections": {
         "persons": ["3", "4"],
         "organizations": ["6"],
