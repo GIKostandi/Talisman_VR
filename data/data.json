@@ -8,8 +8,8 @@
       "connections": {
         "persons": ["2", "3", "4", "11"],
         "organizations": ["8", "9", "10"],
-        "education": ["5", "6", "7"],
-        "publication": ["12", "13", "14"]
+        "educations": ["5", "6", "7"],
+        "publications": ["12", "13", "14"]
       }
     },
     {
@@ -28,7 +28,7 @@
       "photo_connections": "cards/concept_11/C11_S1.obj",
       "connections": {
         "persons": ["1", "2", "3", "4"],
-        "education": ["7"]
+        "educations": ["7"]
       }
     },
     {
@@ -58,7 +58,7 @@
       "photo_connections": "cards/concept_8/C8_S1.obj",
       "connections": {
         "persons": ["1"],
-        "country": ["18"]
+        "countries": ["18"]
       }
     },
     {
@@ -68,7 +68,7 @@
       "photo_connections": "cards/concept_9/C9_S1.obj",
       "connections": {
         "persons": ["1"],
-        "country": ["15"]
+        "countries": ["15"]
       }
     },
     {
@@ -78,11 +78,11 @@
       "photo_connections": "cards/concept_10/C10_S1.obj",
       "connections": {
         "persons": ["1"],
-        "country": ["17"]
+        "countries": ["17"]
       }
     }
   ],
-  "country": [
+  "countries": [
     {
       "id": "15",
       "name": "Швеция",
@@ -98,7 +98,7 @@
       "photo_properties": "cards/concept_16/C16_H1.obj",
       "photo_connections": "cards/concept_16/C16_S1.obj",
       "connections": {
-        "education": ["5", "6"]
+        "educations": ["5", "6"]
       }
     },
     {
@@ -108,7 +108,7 @@
       "photo_connections": "cards/concept_17/C17_S1.obj",
       "connections": {
         "organizations": ["10"],
-        "education": ["7"]
+        "educations": ["7"]
       }
     },
     {
@@ -121,7 +121,7 @@
       }
     }
   ],
-  "education": [
+  "educations": [
     {
       "id": "5",
       "name": "Геттинский универститет",
@@ -129,7 +129,7 @@
       "photo_connections": "cards/concept_5/C5_S1.obj",
       "connections": {
         "persons": ["1"],
-        "country": ["16"]
+        "countries": ["16"]
       }
     },
     {
@@ -139,7 +139,7 @@
       "photo_connections": "cards/concept_6/C6_S1.obj",
       "connections": {
         "persons": ["1"],
-        "country": ["16"]
+        "countries": ["16"]
       }
     },
     {
@@ -149,11 +149,11 @@
       "photo_connections": "cards/concept_7/C7_S1.obj",
       "connections": {
         "persons": ["1", "11"],
-        "country": ["17"]
+        "countries": ["17"]
       }
     }
   ],
-  "publication": [
+  "publications": [
     {
       "id": "12",
       "name": "Теорема Ковалевской",

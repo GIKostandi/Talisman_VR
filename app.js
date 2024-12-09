@@ -101,49 +101,49 @@ var createScene = async function () {
 
   const allObjects = [
     //Образовательное учреждение
-    ...jsonData.education.map((education) => ({
+    ...jsonData.educations.map((educations) => ({
       model: "./models/education/education.obj",
-      id: education.id,
-      name: education.name,
-      photo_properties: education.photo_properties,
-      photo_connections: education.photo_connections,
-      connections: education.connections,
+      id: educations.id,
+      name: educations.name,
+      photo_properties: educations.photo_properties,
+      photo_connections: educations.photo_connections,
+      connections: educations.connections,
     })),
     //Персона
-    ...jsonData.persons.map((person) => ({
+    ...jsonData.persons.map((persons) => ({
       model: "./models/person/person.obj",
-      id: person.id,
-      name: person.name,
-      photo_properties: person.photo_properties,
-      photo_connections: person.photo_connections,
-      connections: person.connections,
+      id: persons.id,
+      name: persons.name,
+      photo_properties: persons.photo_properties,
+      photo_connections: persons.photo_connections,
+      connections: persons.connections,
     })),
     //Организации
-    ...jsonData.organizations.map((organization) => ({
+    ...jsonData.organizations.map((organizations) => ({
       model: "./models/organization/organization.obj",
-      id: organization.id,
-      name: organization.name,
-      photo_properties: organization.photo_properties,
-      photo_connections: organization.photo_connections,
-      connections: organization.connections,
+      id: organizations.id,
+      name: organizations.name,
+      photo_properties: organizations.photo_properties,
+      photo_connections: organizations.photo_connections,
+      connections: organizations.connections,
     })),
     //Страна
-    ...jsonData.country.map((country) => ({
+    ...jsonData.countries.map((countries) => ({
       model: "./models/country/map.obj",
-      id: country.id,
-      name: country.name,
-      photo_properties: country.photo_properties,
-      photo_connections: country.photo_connections,
-      connections: country.connections,
+      id: countries.id,
+      name: countries.name,
+      photo_properties: countries.photo_properties,
+      photo_connections: countries.photo_connections,
+      connections: countries.connections,
     })),
     //Публикации
-    ...jsonData.publication.map((publication) => ({
+    ...jsonData.publications.map((publications) => ({
       model: "./models/publication/publication.obj",
-      id: publication.id,
-      name: publication.name,
-      photo_properties: publication.photo_properties,
-      photo_connections: publication.photo_connections,
-      connections: publication.connections,
+      id: publications.id,
+      name: publications.name,
+      photo_properties: publications.photo_properties,
+      photo_connections: publications.photo_connections,
+      connections: publications.connections,
     })),
   ];
   function shuffleArray(array) {
