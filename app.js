@@ -16,7 +16,7 @@ var createScene = async function () {
     "Camera",
     Math.PI / 2,
     Math.PI / 2,
-    10,
+    8,
     BABYLON.Vector3.Zero(),
     scene
   );
