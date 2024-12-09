@@ -6,7 +6,7 @@ const jsonData = await response.json();
 
 var createScene = async function () {
   const scene = new BABYLON.Scene(engine);
-  scene.debugLayer.show();
+  // scene.debugLayer.show();
   scene.clearColor = new BABYLON.Color4(1, 1, 1, 1);
 
   const nover_sound = new BABYLON.Sound("hover", "sounds/hover.mp3", scene); //звук при наведении на концепт
@@ -504,8 +504,8 @@ var createScene = async function () {
       mesh1.setEnabled(true);
       mesh2.setEnabled(false);
 
-      mesh1.position = new BABYLON.Vector3(0, 0, 0);
-      mesh2.position = new BABYLON.Vector3(0, 0, 0);
+      mesh1.position = new BABYLON.Vector3(0, 0, 1);
+      mesh2.position = new BABYLON.Vector3(0, 0, 1);
 
       var manager = new BABYLON.GUI.GUI3DManager(scene);
       //Главная панель
@@ -514,6 +514,7 @@ var createScene = async function () {
       manager.addControl(mainPanel);
       mainPanel.position.y = 1.5;
       mainPanel.position.x = 5.2;
+      mainPanel.position.z = 1;
       mainPanel.isVertical = true;
       // панель для кнопки скрыть
       var closePanel = new BABYLON.GUI.StackPanel3D();
@@ -521,6 +522,7 @@ var createScene = async function () {
       manager.addControl(closePanel);
       closePanel.position.y = 3.1;
       closePanel.position.x = -5.2;
+      closePanel.position.z = 1;
       closePanel.isVertical = true;
 
       const create3DButton = (
