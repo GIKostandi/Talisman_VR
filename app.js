@@ -45,22 +45,22 @@ var createScene = async function () {
     scene
   );
 
-  // Дефолтное окружение
-  var environment = scene.createDefaultEnvironment({
-    enableGroundShadow: true,
-    groundYBias: -100,
-  });
-  environment.setMainColor(BABYLON.Color3.FromHexString("#000000"));
-  environment.ground.isVisible = false;
-  environment.skybox.isVisible = false;
+  // // Дефолтное окружение
+  // var environment = scene.createDefaultEnvironment({
+  //   enableGroundShadow: true,
+  //   groundYBias: -100,
+  // });
+  // environment.setMainColor(BABYLON.Color3.FromHexString("#000000"));
+  // environment.ground.isVisible = false;
+  // environment.skybox.isVisible = false;
 
   const xrHelper = await scene.createDefaultXRExperienceAsync({
-    floorMeshes: [environment.ground],
+    // floorMeshes: [environment.ground],
   });
   //Сфера
   BABYLON.SceneLoader.ImportMesh(
     "",
-    "https://localhost:5500/Talisman_VR/",
+    "https://gikostandi.github.io/",
     "./models/sphere_background/sphere_background.obj",
     scene,
     function (meshes) {
@@ -72,7 +72,7 @@ var createScene = async function () {
   //Логотип талисмана
   BABYLON.SceneLoader.ImportMesh(
     "",
-    "https://localhost:5500/Talisman_VR/",
+    "https://gikostandi.github.io/",
     "./models/logo/logo.obj",
     scene,
     function (meshes) {
@@ -243,20 +243,20 @@ var createScene = async function () {
     try {
       const result = await BABYLON.SceneLoader.ImportMeshAsync(
         "",
-        "https://localhost:5500/Talisman_VR/",
+        "https://gikostandi.github.io/",
         modelName,
         scene
       );
       // Загрузка двух моделей внутри этой функции
       const card_properties = await BABYLON.SceneLoader.ImportMeshAsync(
         "",
-        "https://localhost:5500/Talisman_VR/",
+        "https://gikostandi.github.io/",
         photo_properties,
         scene
       );
       const card_connections = await BABYLON.SceneLoader.ImportMeshAsync(
         "",
-        "https://localhost:5500/Talisman_VR/",
+        "https://gikostandi.github.io/",
         photo_connections,
         scene
       );
@@ -512,15 +512,15 @@ var createScene = async function () {
       var mainPanel = new BABYLON.GUI.StackPanel3D();
       mainPanel.margin = 0.2;
       manager.addControl(mainPanel);
-      mainPanel.position.y = 3.5;
-      mainPanel.position.x = 6.4;
+      mainPanel.position.y = 1.5;
+      mainPanel.position.x = 5.2;
       mainPanel.isVertical = true;
       // панель для кнопки скрыть
       var closePanel = new BABYLON.GUI.StackPanel3D();
       closePanel.margin = 0.2;
       manager.addControl(closePanel);
-      closePanel.position.y = 5;
-      closePanel.position.x = -6.4;
+      closePanel.position.y = 3.1;
+      closePanel.position.x = -5.2;
       closePanel.isVertical = true;
 
       const create3DButton = (
@@ -547,12 +547,12 @@ var createScene = async function () {
 
       create3DButton(
         () => {
-          mesh1.setEnabled(true);
-          mesh2.setEnabled(false);
+          mesh1.setEnabled(false);
+          mesh2.setEnabled(true);
         },
         mainPanel,
         "#035ba9",
-        "https://localhost:5500/Talisman_VR/icons/Характеристики.png",
+        "https://gikostandi.github.io/Talisman_VR/icons/Связи.png",
         1,
         2,
         1
@@ -560,12 +560,12 @@ var createScene = async function () {
 
       create3DButton(
         () => {
-          mesh1.setEnabled(false);
-          mesh2.setEnabled(true);
+          mesh1.setEnabled(true);
+          mesh2.setEnabled(false);
         },
         mainPanel,
         "#035ba9",
-        "https://localhost:5500/Talisman_VR/icons/Связи.png",
+        "https://gikostandi.github.io/Talisman_VR/icons/Характеристики.png",
         1,
         2,
         1
@@ -585,7 +585,7 @@ var createScene = async function () {
         },
         closePanel,
         "#FF5733",
-        "https://localhost:5500/Talisman_VR/icons/close.png",
+        "https://gikostandi.github.io/Talisman_VR/icons/close.png",
         1,
         1,
         1

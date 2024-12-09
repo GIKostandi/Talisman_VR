@@ -3,8 +3,8 @@
     {
       "id": "1",
       "name": "Софья Васильевна Ковалевская",
-      "photo_properties": "cards/concept_1/properties.obj",
-      "photo_connections": "cards/concept_1/properties.obj",
+      "photo_properties": "cards/concept_1/C1_H1.obj",
+      "photo_connections": "cards/concept_1/C1_S1.obj",
       "connections": {
         "persons": ["2", "3", "4"],
         "organizations": ["6"],
@@ -47,8 +47,8 @@
     {
       "id": "5",
       "name": "Елизавета Федоровна Корвин-Круковская",
-      "photo_properties": "cards/concept_1/properties.obj",
-      "photo_connections": "cards/concept_1/properties.obj",
+      "photo_properties": "cards/concept_2/C2_H1.obj",
+      "photo_connections": "cards/concept_2/C2_S1.obj",
       "connections": {
         "persons": ["3"],
         "organizations": ["7"],
