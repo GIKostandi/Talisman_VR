@@ -14,8 +14,8 @@
     {
       "id": "4",
       "name": "Софья Владимировна Ковалевская",
-      "photo_properties": "cards/concept_1/C4_H1.obj",
-      "photo_connections": "cards/concept_1/C1_S1.obj",
+      "photo_properties": "cards/concept_4/C4_H1.obj",
+      "photo_connections": "cards/concept_4/C1_S1.obj",
       "connections": {
         "persons": ["3", "4"],
         "organizations": ["6"],
@@ -25,8 +25,8 @@
     {
       "id": "11",
       "name": "Владимир Онуфриевич Ковалевский",
-      "photo_properties": "cards/concept_1/C11_H1.obj",
-      "photo_connections": "cards/concept_1/C11_S1.obj",
+      "photo_properties": "cards/concept_11/C11_H1.obj",
+      "photo_connections": "cards/concept_11/C11_S1.obj",
       "connections": {
         "persons": ["2", "4"],
         "organizations": ["6"],
@@ -36,8 +36,8 @@
     {
       "id": "3",
       "name": "Василий Васильевич Корвин-Круковский",
-      "photo_properties": "cards/concept_1/C3_H1.obj",
-      "photo_connections": "cards/concept_1/C3_S1.obj",
+      "photo_properties": "cards/concept_3/C3_H1.obj",
+      "photo_connections": "cards/concept_3/C3_S1.obj",
       "connections": {
         "persons": ["2"],
         "organizations": ["6"],
@@ -47,8 +47,8 @@
     {
       "id": "2",
       "name": "Елизавета Федоровна Корвин-Круковская",
-      "photo_properties": "cards/concept_1/C2_H1.obj",
-      "photo_connections": "cards/concept_1/C2_S1.obj",
+      "photo_properties": "cards/concept_2/C2_H1.obj",
+      "photo_connections": "cards/concept_2/C2_S1.obj",
       "connections": {
         "persons": ["3"],
         "organizations": ["7"],
@@ -60,8 +60,8 @@
     {
       "id": "8",
       "name": "Парижское математическое общество",
-      "photo_properties": "cards/concept_1/C8_H1.obj",
-      "photo_connections": "cards/concept_1/C8_S1.obj",
+      "photo_properties": "cards/concept_8/C8_H1.obj",
+      "photo_connections": "cards/concept_8/C8_S1.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -70,8 +70,8 @@
     {
       "id": "9",
       "name": "Шведская королевская академия наук",
-      "photo_properties": "cards/concept_1/C9_H1.obj",
-      "photo_connections": "cards/concept_1/C9_S1.obj",
+      "photo_properties": "cards/concept_9/C9_H1.obj",
+      "photo_connections": "cards/concept_9/C9_S1.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -80,8 +80,8 @@
     {
       "id": "10",
       "name": "Петербургская академия наук",
-      "photo_properties": "cards/concept_1/C10_H1.obj",
-      "photo_connections": "cards/concept_1/C10_S1.obj",
+      "photo_properties": "cards/concept_10/C10_H1.obj",
+      "photo_connections": "cards/concept_10/C10_S1.obj",
       "connections": {
         "persons": ["4"],
         "communities": ["10"]
@@ -92,8 +92,8 @@
     {
       "id": "15",
       "name": "Швеция",
-      "photo_properties": "cards/concept_1/C15_H1.obj",
-      "photo_connections": "cards/concept_1/C15_S1.obj",
+      "photo_properties": "cards/concept_15/C15_H1.obj",
+      "photo_connections": "cards/concept_15/C15_S1.obj",
       "connections": {
         "persons": ["5"],
         "organizations": ["8"]
@@ -102,8 +102,8 @@
     {
       "id": "16",
       "name": "Германия",
-      "photo_properties": "cards/concept_1/C16_H1.obj",
-      "photo_connections": "cards/concept_1/C16_S1.obj",
+      "photo_properties": "cards/concept_16/C16_H1.obj",
+      "photo_connections": "cards/concept_16/C16_S1.obj",
       "connections": {
         "persons": ["4", "5"],
         "organizations": ["7"]
@@ -112,8 +112,8 @@
     {
       "id": "17",
       "name": "Россия",
-      "photo_properties": "cards/concept_1/C17_H1.obj",
-      "photo_connections": "cards/concept_1/C17_S1.obj",
+      "photo_properties": "cards/concept_17/C17_H1.obj",
+      "photo_connections": "cards/concept_17/C17_S1.obj",
       "connections": {
         "persons": ["2", "3"],
         "organizations": ["6"]
@@ -122,8 +122,8 @@
     {
       "id": "18",
       "name": "Франция",
-      "photo_properties": "cards/concept_1/C18_H1.obj",
-      "photo_connections": "cards/concept_1/C18_S1.obj",
+      "photo_properties": "cards/concept_18/C18_H1.obj",
+      "photo_connections": "cards/concept_18/C18_S1.obj",
       "connections": {
         "persons": ["2", "3"],
         "organizations": ["6"]
@@ -134,8 +134,8 @@
     {
       "id": "5",
       "name": "Геттинский универститет",
-      "photo_properties": "cards/concept_1/C5_H1.obj",
-      "photo_connections": "cards/concept_1/C5_S1.obj",
+      "photo_properties": "cards/concept_5/C5_H1.obj",
+      "photo_connections": "cards/concept_5/C5_S1.obj",
       "connections": {
         "persons": ["2", "3"],
         "communities": ["9"]
@@ -144,8 +144,8 @@
     {
       "id": "6",
       "name": "Гейдельберский университет",
-      "photo_properties": "cards/concept_1/C6_H1.obj",
-      "photo_connections": "cards/concept_1/C6_S1.obj",
+      "photo_properties": "cards/concept_6/C6_H1.obj",
+      "photo_connections": "cards/concept_6/C6_S1.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -154,8 +154,8 @@
     {
       "id": "7",
       "name": "Санкт — Петербургский университет",
-      "photo_properties": "cards/concept_1/C7_H1.obj",
-      "photo_connections": "cards/concept_1/C7_S1.obj",
+      "photo_properties": "cards/concept_7/C7_H1.obj",
+      "photo_connections": "cards/concept_7/C7_S1.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -166,8 +166,8 @@
     {
       "id": "12",
       "name": "Теорема Ковалевской",
-      "photo_properties": "cards/concept_1/C12_H1.obj",
-      "photo_connections": "cards/concept_1/C12_S1.obj",
+      "photo_properties": "cards/concept_12/C12_H1.obj",
+      "photo_connections": "cards/concept_12/C12_S1.obj",
       "connections": {
         "persons": ["2", "3"],
         "communities": ["9"]
@@ -176,8 +176,8 @@
     {
       "id": "13",
       "name": "Теория Ковалевской в механике",
-      "photo_properties": "cards/concept_1/C13_H1.obj",
-      "photo_connections": "cards/concept_1/C13_S1.obj",
+      "photo_properties": "cards/concept_13/C13_H1.obj",
+      "photo_connections": "cards/concept_13/C13_S1.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
@@ -186,8 +186,8 @@
     {
       "id": "14",
       "name": "Литературные произведения и мемуары",
-      "photo_properties": "cards/concept_1/C14_H1.obj",
-      "photo_connections": "cards/concept_1/C14_S1.obj",
+      "photo_properties": "cards/concept_14/C14_H1.obj",
+      "photo_connections": "cards/concept_14/C14_S1.obj",
       "connections": {
         "persons": ["5"],
         "communities": ["11"]
