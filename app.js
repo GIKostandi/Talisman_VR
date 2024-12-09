@@ -385,7 +385,7 @@ var createScene = async function () {
                 const connectedIds = [
                   ...(connections.persons || []),
                   ...(connections.organizations || []),
-                  ...(connections.communities || []),
+                  ...(connections.educations || []),
                   ...(connections.countries || []),
                   ...(connections.publications || []),
                 ];
