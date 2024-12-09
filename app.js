@@ -154,6 +154,7 @@ var createScene = async function () {
   }
 
   shuffleArray(allObjects);
+  console.log(allObjects);
 
   //Текст над концептом
   const createLabel = (name, position, scene) => {
