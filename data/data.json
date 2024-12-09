@@ -6,9 +6,10 @@
       "photo_properties": "cards/concept_1/C1_H1.obj",
       "photo_connections": "cards/concept_1/C1_S1.obj",
       "connections": {
-        "persons": ["2", "3", "4"],
-        "organizations": ["6"],
-        "communities": ["9"]
+        "persons": ["2", "3", "4", "11"],
+        "organizations": ["8", "9", "10"],
+        "education": ["5", "6", "7"],
+        "publication": ["12", "13", "14"]
       }
     },
     {
@@ -17,9 +18,7 @@
       "photo_properties": "cards/concept_4/C4_H1.obj",
       "photo_connections": "cards/concept_4/C4_S1.obj",
       "connections": {
-        "persons": ["3", "4"],
-        "organizations": ["6"],
-        "communities": ["9"]
+        "persons": ["1", "2", "3", "11"]
       }
     },
     {
@@ -28,9 +27,8 @@
       "photo_properties": "cards/concept_11/C11_H1.obj",
       "photo_connections": "cards/concept_11/C11_S1.obj",
       "connections": {
-        "persons": ["2", "4"],
-        "organizations": ["6"],
-        "communities": ["9"]
+        "persons": ["1", "2", "3", "4"],
+        "education": ["7"]
       }
     },
     {
@@ -39,9 +37,7 @@
       "photo_properties": "cards/concept_3/C3_H1.obj",
       "photo_connections": "cards/concept_3/C3_S1.obj",
       "connections": {
-        "persons": ["2"],
-        "organizations": ["6"],
-        "communities": ["9"]
+        "persons": ["1", "2", "4", "11"]
       }
     },
     {
@@ -50,9 +46,7 @@
       "photo_properties": "cards/concept_2/C2_H1.obj",
       "photo_connections": "cards/concept_2/C2_S1.obj",
       "connections": {
-        "persons": ["3"],
-        "organizations": ["7"],
-        "communities": ["10"]
+        "persons": ["1", "3", "4", "11"]
       }
     }
   ],
@@ -63,8 +57,8 @@
       "photo_properties": "cards/concept_8/C8_H1.obj",
       "photo_connections": "cards/concept_8/C8_S1.obj",
       "connections": {
-        "persons": ["5"],
-        "communities": ["11"]
+        "persons": ["1"],
+        "country": ["18"]
       }
     },
     {
@@ -73,8 +67,8 @@
       "photo_properties": "cards/concept_9/C9_H1.obj",
       "photo_connections": "cards/concept_9/C9_S1.obj",
       "connections": {
-        "persons": ["5"],
-        "communities": ["11"]
+        "persons": ["1"],
+        "country": ["15"]
       }
     },
     {
@@ -83,8 +77,8 @@
       "photo_properties": "cards/concept_10/C10_H1.obj",
       "photo_connections": "cards/concept_10/C10_S1.obj",
       "connections": {
-        "persons": ["4"],
-        "communities": ["10"]
+        "persons": ["1"],
+        "country": ["17"]
       }
     }
   ],
@@ -95,8 +89,7 @@
       "photo_properties": "cards/concept_15/C15_H1.obj",
       "photo_connections": "cards/concept_15/C15_S1.obj",
       "connections": {
-        "persons": ["5"],
-        "organizations": ["8"]
+        "organizations": ["9"]
       }
     },
     {
@@ -105,8 +98,7 @@
       "photo_properties": "cards/concept_16/C16_H1.obj",
       "photo_connections": "cards/concept_16/C16_S1.obj",
       "connections": {
-        "persons": ["4", "5"],
-        "organizations": ["7"]
+        "education": ["5", "6"]
       }
     },
     {
@@ -115,8 +107,8 @@
       "photo_properties": "cards/concept_17/C17_H1.obj",
       "photo_connections": "cards/concept_17/C17_S1.obj",
       "connections": {
-        "persons": ["2", "3"],
-        "organizations": ["6"]
+        "organizations": ["10"],
+        "education": ["7"]
       }
     },
     {
@@ -125,8 +117,7 @@
       "photo_properties": "cards/concept_18/C18_H1.obj",
       "photo_connections": "cards/concept_18/C18_S1.obj",
       "connections": {
-        "persons": ["2", "3"],
-        "organizations": ["6"]
+        "organizations": ["8"]
       }
     }
   ],
@@ -137,8 +128,8 @@
       "photo_properties": "cards/concept_5/C5_H1.obj",
       "photo_connections": "cards/concept_5/C5_S1.obj",
       "connections": {
-        "persons": ["2", "3"],
-        "communities": ["9"]
+        "persons": ["1"],
+        "country": ["16"]
       }
     },
     {
@@ -147,8 +138,8 @@
       "photo_properties": "cards/concept_6/C6_H1.obj",
       "photo_connections": "cards/concept_6/C6_S1.obj",
       "connections": {
-        "persons": ["5"],
-        "communities": ["11"]
+        "persons": ["1"],
+        "country": ["16"]
       }
     },
     {
@@ -157,8 +148,8 @@
       "photo_properties": "cards/concept_7/C7_H1.obj",
       "photo_connections": "cards/concept_7/C7_S1.obj",
       "connections": {
-        "persons": ["5"],
-        "communities": ["11"]
+        "persons": ["1", "11"],
+        "country": ["17"]
       }
     }
   ],
@@ -169,8 +160,7 @@
       "photo_properties": "cards/concept_12/C12_H1.obj",
       "photo_connections": "cards/concept_12/C12_S1.obj",
       "connections": {
-        "persons": ["2", "3"],
-        "communities": ["9"]
+        "persons": ["1"]
       }
     },
     {
@@ -179,8 +169,7 @@
       "photo_properties": "cards/concept_13/C13_H1.obj",
       "photo_connections": "cards/concept_13/C13_S1.obj",
       "connections": {
-        "persons": ["5"],
-        "communities": ["11"]
+        "persons": ["1"]
       }
     },
     {
@@ -189,8 +178,7 @@
       "photo_properties": "cards/concept_14/C14_H1.obj",
       "photo_connections": "cards/concept_14/C14_S1.obj",
       "connections": {
-        "persons": ["5"],
-        "communities": ["11"]
+        "persons": ["1"]
       }
     }
   ]
