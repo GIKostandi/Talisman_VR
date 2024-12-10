@@ -510,8 +510,8 @@ var createScene = async function () {
       mesh1.setEnabled(true);
       mesh2.setEnabled(false);
 
-      mesh1.position = new BABYLON.Vector3(0, 1.5, 3);
-      mesh2.position = new BABYLON.Vector3(0, 1.5, 3);
+      mesh1.position = new BABYLON.Vector3(0, 1.25, 3);
+      mesh2.position = new BABYLON.Vector3(0, 1.25, 3);
 
       var manager = new BABYLON.GUI.GUI3DManager(scene);
       //Главная панель
