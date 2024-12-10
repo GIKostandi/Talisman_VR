@@ -509,8 +509,8 @@ var createScene = async function () {
       mesh1.setEnabled(true);
       mesh2.setEnabled(false);
 
-      mesh1.position = new BABYLON.Vector3(0, 0, 1);
-      mesh2.position = new BABYLON.Vector3(0, 0, 1);
+      mesh1.position = new BABYLON.Vector3(0, 0, 2);
+      mesh2.position = new BABYLON.Vector3(0, 0, 2);
 
       var manager = new BABYLON.GUI.GUI3DManager(scene);
       //Главная панель
@@ -519,7 +519,7 @@ var createScene = async function () {
       manager.addControl(mainPanel);
       mainPanel.position.y = 1.25;
       mainPanel.position.x = 5.4;
-      mainPanel.position.z = 1;
+      mainPanel.position.z = 2;
       mainPanel.isVertical = true;
       // панель для кнопки скрыть
       var closePanel = new BABYLON.GUI.StackPanel3D();
@@ -527,7 +527,7 @@ var createScene = async function () {
       manager.addControl(closePanel);
       closePanel.position.y = 3;
       closePanel.position.x = -5.2;
-      closePanel.position.z = 1;
+      closePanel.position.z = 2;
       closePanel.isVertical = true;
 
       const create3DButton = (
