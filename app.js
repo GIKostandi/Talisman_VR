@@ -526,7 +526,7 @@ var createScene = async function () {
       var closePanel = new BABYLON.GUI.StackPanel3D();
       closePanel.margin = 0.2;
       manager.addControl(closePanel);
-      closePanel.position.y = 2.5;
+      closePanel.position.y = 3;
       closePanel.position.x = -3;
       closePanel.position.z = 3.7;
       closePanel.isVertical = true;
