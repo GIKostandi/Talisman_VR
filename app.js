@@ -560,8 +560,8 @@ var createScene = async function () {
         mainPanel,
         "#035ba9",
         "https://gikostandi.github.io/icons/Связи.png",
-        1,
-        2,
+        1.5,
+        2.2,
         1
       );
 
@@ -573,8 +573,8 @@ var createScene = async function () {
         mainPanel,
         "#035ba9",
         "https://gikostandi.github.io/icons/Характеристики.png",
-        1,
-        2,
+        1.5,
+        2.2,
         1
       );
 
