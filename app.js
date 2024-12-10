@@ -263,7 +263,7 @@ var createScene = async function () {
       );
       if (card_properties.meshes.length > 0) {
         card_properties.meshes.forEach((mesh) => {
-          mesh.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+          mesh.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
           mesh.setEnabled(false);
         });
       }
@@ -510,8 +510,8 @@ var createScene = async function () {
       mesh1.setEnabled(true);
       mesh2.setEnabled(false);
 
-      mesh1.position = new BABYLON.Vector3(0, 1.25, 3.5);
-      mesh2.position = new BABYLON.Vector3(0, 1.25, 3.5);
+      mesh1.position = new BABYLON.Vector3(0, 1.25, 4);
+      mesh2.position = new BABYLON.Vector3(0, 1.25, 4);
 
       var manager = new BABYLON.GUI.GUI3DManager(scene);
       //Главная панель
@@ -520,7 +520,7 @@ var createScene = async function () {
       manager.addControl(mainPanel);
       mainPanel.position.y = 1.25;
       mainPanel.position.x = 5.4;
-      mainPanel.position.z = 3.5;
+      mainPanel.position.z = 4;
       mainPanel.isVertical = true;
       // панель для кнопки скрыть
       var closePanel = new BABYLON.GUI.StackPanel3D();
@@ -528,7 +528,7 @@ var createScene = async function () {
       manager.addControl(closePanel);
       closePanel.position.y = 3;
       closePanel.position.x = -5.2;
-      closePanel.position.z = 3.5;
+      closePanel.position.z = 4;
       closePanel.isVertical = true;
 
       const create3DButton = (
