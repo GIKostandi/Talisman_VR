@@ -518,7 +518,7 @@ var createScene = async function () {
       var mainPanel = new BABYLON.GUI.StackPanel3D();
       mainPanel.margin = 0.2;
       manager.addControl(mainPanel);
-      mainPanel.position.y = 1.25;
+      mainPanel.position.y = 2;
       mainPanel.position.x = 3;
       mainPanel.position.z = 3.7;
       mainPanel.isVertical = true;
@@ -526,8 +526,8 @@ var createScene = async function () {
       var closePanel = new BABYLON.GUI.StackPanel3D();
       closePanel.margin = 0.2;
       manager.addControl(closePanel);
-      closePanel.position.y = 1.25;
-      closePanel.position.x = -2.8;
+      closePanel.position.y = 2;
+      closePanel.position.x = -3;
       closePanel.position.z = 3.7;
       closePanel.isVertical = true;
 
@@ -597,8 +597,8 @@ var createScene = async function () {
         closePanel,
         "#FF5733",
         "https://gikostandi.github.io/icons/close.png",
-        1,
-        1,
+        0.75,
+        1.1,
         1
       );
     } else {
