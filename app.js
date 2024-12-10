@@ -517,8 +517,8 @@ var createScene = async function () {
       var mainPanel = new BABYLON.GUI.StackPanel3D();
       mainPanel.margin = 0.2;
       manager.addControl(mainPanel);
-      mainPanel.position.y = 1.2;
-      mainPanel.position.x = 5.5;
+      mainPanel.position.y = 1.25;
+      mainPanel.position.x = 5.4;
       mainPanel.position.z = 1;
       mainPanel.isVertical = true;
       // панель для кнопки скрыть
