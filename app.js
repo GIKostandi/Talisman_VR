@@ -554,6 +554,7 @@ var createScene = async function () {
 
       create3DButton(
         () => {
+          click_sound.play();
           mesh1.setEnabled(false);
           mesh2.setEnabled(true);
         },
@@ -567,6 +568,7 @@ var createScene = async function () {
 
       create3DButton(
         () => {
+          click_sound.play();
           mesh1.setEnabled(true);
           mesh2.setEnabled(false);
         },
@@ -580,6 +582,7 @@ var createScene = async function () {
 
       create3DButton(
         () => {
+          click_sound.play();
           mesh1.setEnabled(false);
           mesh2.setEnabled(false);
           wrapper.setEnabled(true);
