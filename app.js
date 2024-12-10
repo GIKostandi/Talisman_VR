@@ -6,7 +6,7 @@ const jsonData = await response.json();
 
 var createScene = async function () {
   const scene = new BABYLON.Scene(engine);
-  // scene.debugLayer.show();
+  scene.debugLayer.show();
   scene.clearColor = new BABYLON.Color4(1, 1, 1, 1);
 
   const nover_sound = new BABYLON.Sound("hover", "sounds/hover.mp3", scene); //звук при наведении на концепт
