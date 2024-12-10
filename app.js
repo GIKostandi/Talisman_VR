@@ -519,15 +519,15 @@ var createScene = async function () {
       mainPanel.margin = 0.2;
       manager.addControl(mainPanel);
       mainPanel.position.y = 1.25;
-      mainPanel.position.x = 5.4;
+      mainPanel.position.x = 3;
       mainPanel.position.z = 3.7;
       mainPanel.isVertical = true;
       // панель для кнопки скрыть
       var closePanel = new BABYLON.GUI.StackPanel3D();
       closePanel.margin = 0.2;
       manager.addControl(closePanel);
-      closePanel.position.y = 3;
-      closePanel.position.x = -5.2;
+      closePanel.position.y = 1.25;
+      closePanel.position.x = -2.8;
       closePanel.position.z = 3.7;
       closePanel.isVertical = true;
 
@@ -562,8 +562,8 @@ var createScene = async function () {
         mainPanel,
         "#035ba9",
         "https://gikostandi.github.io/icons/Связи.png",
-        1.5,
-        2.2,
+        0.75,
+        1.1,
         1
       );
 
@@ -576,8 +576,8 @@ var createScene = async function () {
         mainPanel,
         "#035ba9",
         "https://gikostandi.github.io/icons/Характеристики.png",
-        1.5,
-        2.2,
+        0.75,
+        1.1,
         1
       );
 
